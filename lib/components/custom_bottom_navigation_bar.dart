@@ -2,6 +2,7 @@ import 'package:yucatan/components/colored_divider.dart';
 import 'package:yucatan/models/user_model.dart';
 import 'package:yucatan/screens/activity_list_screen/activity_list_screen.dart';
 import 'package:yucatan/screens/activity_map/activity_map_screen.dart';
+import 'package:yucatan/screens/activity_map/components/google_map_web.dart';
 import 'package:yucatan/screens/booking_list_screen/booking_list_screen_offline.dart';
 import 'package:yucatan/screens/burger_menu/burger_menu_screen.dart';
 import 'package:yucatan/screens/favorites_screen/favorites_screen.dart';
@@ -110,18 +111,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
         notificationData: widget.notificationData,
         isBookingRequestType: widget.isBookingRequestType,
       ),
-      ActivityMapScreen(),
+      // ActivityMapScreen(),
+      SizedBox(
+        height: Dimensions.getHeight(percentage: 100),
+        width: Dimensions.getWidth(percentage: 100),
+        child: GoogleMap(),
+      ),
       // FavoritesScreen(),
-      Padding(
-        padding: EdgeInsets.only(
-          top: Dimensions.getScaledSize(10.0),
-          left: Dimensions.getScaledSize(20.0),
-          bottom: Dimensions.getScaledSize(20.0),
-          right: Dimensions.getScaledSize(20.0),
-        ),
-        child: Center(
-          child: Text('No Data Found'),
-        ),
+      BookingListScreenOffline(
+        notificationAction: widget.notificationAction,
+        notificationData: widget.notificationData,
+        isBookingRequestType: widget.isBookingRequestType,
       ),
       BurgerMenuScreen(),
     ];

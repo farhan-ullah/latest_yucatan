@@ -73,33 +73,33 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 400),
     );
-    eventBus.on<OnAppLinkClick>().listen((OnAppLinkClick event) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        this.appLink = event.link;
-        if (this.appLink.contains('users/resetPassword')) {
-          _updateFragment(ResetPassword(), user!);
-        } else if (this.appLink.contains('users/confirm')) {
-          var email = this.appLink.split('email=')[1].split('&')[0];
-          var token = this.appLink.split('token=')[1];
-          UserService.confirmUser(email: email, token: token);
-          _updateFragment(LoginScreen(), user!);
-        }
-      });
-    });
+    // eventBus.on<OnAppLinkClick>().listen((OnAppLinkClick event) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     this.appLink = event.link;
+    //     if (this.appLink.contains('users/resetPassword')) {
+    //       _updateFragment(ResetPassword(), user!);
+    //     } else if (this.appLink.contains('users/confirm')) {
+    //       var email = this.appLink.split('email=')[1].split('&')[0];
+    //       var token = this.appLink.split('token=')[1];
+    //       UserService.confirmUser(email: email, token: token);
+    //       _updateFragment(LoginScreen(), user!);
+    //     }
+    //   });
+    // });
 
-    eventBus.on<OnMapClickCallback>().listen((OnMapClickCallback event) {
-      setState(() {
-        _visible = event.showAppBar;
-      });
-    });
+    // eventBus.on<OnMapClickCallback>().listen((OnMapClickCallback event) {
+    //   setState(() {
+    //     _visible = event.showAppBar;
+    //   });
+    // });
 
-    eventBus.on<OnDeepLinkClick>().listen((OnDeepLinkClick event) {
-      //print("---OnDeepLinkClick.event---=${event.activityID}");
-      if (this.mounted) {
-        _navigateToHomeScreen(context, activityID: event.activityID);
-      }
-      _navigateToHomeScreen(context);
-    });
+    // eventBus.on<OnDeepLinkClick>().listen((OnDeepLinkClick event) {
+    //   //print("---OnDeepLinkClick.event---=${event.activityID}");
+    //   if (this.mounted) {
+    //     _navigateToHomeScreen(context, activityID: event.activityID);
+    //   }
+    //   _navigateToHomeScreen(context);
+    // });
 
     // For Testing Purpose
     // HiveService.getScheduledNotificationsList().then((value) {
@@ -120,223 +120,150 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     MainScreenParameter? parameter =
         ModalRoute.of(context)!.settings.arguments as MainScreenParameter?;
-    SizeConfig().init(context);
+    // SizeConfig().init(context);
 
-    if (fragment is ResetPassword) {
-      return ResetPassword(
-        link: appLink,
-        updateFragment: () {
-          _updateFragment(Container(), user!);
-        },
-      );
-    } else if (fragment is LoginScreen) {
-      return LoginScreen();
-    } else {
-      return fragment is ActivityListScreen
-          ? Scaffold(
-              extendBodyBehindAppBar: true,
-              appBar: showAppBar
-                  ? SlidingAppBar(
-                      controller: _controller!,
-                      visible: _visible,
-                      child: AppBar(
-                        automaticallyImplyLeading: false,
-                        elevation: 0.0,
-                        title: GestureDetector(
-                          onTap: () {
-                            _navigateToHomeScreen(context);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                  height:
-                                      Dimensions.getHeight(percentage: 25.0),
-                                  width: Dimensions.getWidth(percentage: 25.0),
-                                  child: FutureBuilder(
-                                    future:
-                                        checkCondition(), // a Future<String> or null
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<Uint8List> snapshot) {
-                                      return snapshot.hasData
-                                          ? Image.memory(snapshot.data!)
-                                          : RiveAnimation(
-                                              riveFileName: 'app-start.riv',
-                                              riveAnimationName: 'Animation 1',
-                                              placeholderImage:
-                                                  'lib/assets/images/appventure_icon_white.png',
-                                              startAnimationAfterMilliseconds:
-                                                  2,
-                                            );
-                                    },
-                                  ),
+    // if (fragment is ResetPassword) {
+    //   return ResetPassword(
+    //     link: appLink,
+    //     updateFragment: () {
+    //       _updateFragment(Container(), user!);
+    //     },
+    //   );
+    // } else if (fragment is LoginScreen) {
+    //   return LoginScreen();
+    // } else {
+    return fragment is ActivityListScreen
+        ? Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: showAppBar
+                ? SlidingAppBar(
+                    controller: _controller!,
+                    visible: _visible,
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      elevation: 0.0,
+                      title: GestureDetector(
+                        onTap: () {
+                          _navigateToHomeScreen(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Container(
+                                height: Dimensions.getHeight(percentage: 15.0),
+                                width: Dimensions.getWidth(percentage: 15.0),
+                                child: FutureBuilder(
+                                  future:
+                                      checkCondition(), // a Future<String> or null
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<Uint8List> snapshot) {
+                                    return snapshot.hasData
+                                        ? Image.memory(snapshot.data!)
+                                        : Image.asset(
+                                            'lib/assets/images/appventure_icon_white.png');
+                                    // RiveAnimation(
+                                    //     riveFileName: 'app-start.riv',
+                                    //     riveAnimationName: 'Animation 1',
+                                    //     placeholderImage:
+                                    //         'lib/assets/images/appventure_icon_white.png',
+                                    //     startAnimationAfterMilliseconds:
+                                    //         2,
+                                    //   );
+                                  },
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      backgroundColor: Colors.transparent,
+                      actions: [
+                        Center(
+                          child: NotificationView(
+                            negativePadding: false,
                           ),
                         ),
-                        backgroundColor: Colors.transparent,
-                        actions: [
-                          Center(
-                            child: NotificationView(
-                              negativePadding: false,
-                            ),
-                          ),
-                          SizedBox(
-                            width: Dimensions.getScaledSize(24.0),
-                          ),
-                        ],
-                      ),
-                    )
-                  : null,
-              body: fragment,
-              bottomNavigationBar: CustomBottomNavigationBar(
-                updateFragment: _updateFragment,
-                index: parameter?.bottomNavigationBarIndex ?? 3,
-                notificationAction: parameter?.notificationAction,
-                notificationData: parameter?.notificationData,
-                activityId: parameter?.activityId,
-                isBookingRequestType: false,
-              ),
-            )
-          // FlavorBanner(
-          //         child: Scaffold(
-          //           body: fragment,
-          //           bottomNavigationBar: CustomBottomNavigationBar(
-          //             updateFragment: _updateFragment,
-          //             index: parameter?.bottomNavigationBarIndex ?? 0,
-          //             notificationAction: parameter?.notificationAction,
-          //             notificationData: parameter?.notificationData,
-          //             activityId: parameter?.activityId,
-          //             isBookingRequestType: false,
-          //           ),
-          //         ),
-          //       )
-          : Scaffold(
-              extendBodyBehindAppBar: true,
-              appBar: showAppBar
-                  ? SlidingAppBar(
-                      controller: _controller!,
-                      visible: _visible,
-                      child: AppBar(
-                        automaticallyImplyLeading: false,
-                        title: GestureDetector(
-                          onTap: () {
-                            _navigateToHomeScreen(context);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Container(
-                                  height:
-                                      Dimensions.getHeight(percentage: 25.0),
-                                  width: Dimensions.getWidth(percentage: 25.0),
-                                  child: FutureBuilder(
-                                    future:
-                                        checkCondition(), // a Future<String> or null
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<Uint8List> snapshot) {
-                                      return snapshot.hasData
-                                          ? Image.memory(snapshot.data!)
-                                          : RiveAnimation(
-                                              riveFileName: 'app-start.riv',
-                                              riveAnimationName: 'Animation 1',
-                                              placeholderImage:
-                                                  'lib/assets/images/appventure_icon_white.png',
-                                              startAnimationAfterMilliseconds:
-                                                  2,
-                                            );
-                                    },
-                                  ),
+                        SizedBox(
+                          width: Dimensions.getScaledSize(24.0),
+                        ),
+                      ],
+                    ),
+                  )
+                : null,
+            body: fragment,
+            bottomNavigationBar: CustomBottomNavigationBar(
+              updateFragment: _updateFragment,
+              index: parameter?.bottomNavigationBarIndex ?? 3,
+              notificationAction: parameter?.notificationAction,
+              notificationData: parameter?.notificationData,
+              activityId: parameter?.activityId,
+              isBookingRequestType: false,
+            ),
+          )
+        : Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: showAppBar
+                ? SlidingAppBar(
+                    controller: _controller!,
+                    visible: _visible,
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      title: GestureDetector(
+                        onTap: () {
+                          _navigateToHomeScreen(context);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Container(
+                                height: Dimensions.getHeight(percentage: 15.0),
+                                width: Dimensions.getWidth(percentage: 15.0),
+                                child: FutureBuilder(
+                                  future:
+                                      checkCondition(), // a Future<String> or null
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<Uint8List> snapshot) {
+                                    return snapshot.hasData
+                                        ? Image.memory(snapshot.data!)
+                                        : Image.asset(
+                                            'lib/assets/images/appventure_icon_white.png');
+                                  },
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      backgroundColor:
+                          Provider.of<ThemeModel>(context, listen: true)
+                              .primaryMainColor,
+                      actions: [
+                        Center(
+                          child: NotificationView(
+                            negativePadding: false,
                           ),
                         ),
-                        backgroundColor:
-                            Provider.of<ThemeModel>(context, listen: true)
-                                .primaryMainColor,
-                        actions: [
-                          Center(
-                            child: NotificationView(
-                              negativePadding: false,
-                            ),
-                          ),
-                          SizedBox(
-                            width: Dimensions.getScaledSize(24.0),
-                          ),
-                        ],
-                      ),
-                    )
-                  : null,
-              body: fragment,
-              bottomNavigationBar: CustomBottomNavigationBar(
-                updateFragment: _updateFragment,
-                index: parameter?.bottomNavigationBarIndex ?? 3,
-                notificationAction: parameter?.notificationAction,
-                notificationData: parameter?.notificationData,
-                activityId: parameter?.activityId,
-                isBookingRequestType: true,
-              ),
-            );
-      // FlavorBanner(
-      //         child: Scaffold(
-      //           extendBodyBehindAppBar: true,
-      //           appBar: showAppBar
-      //               ? SlidingAppBar(
-      //                   controller: _controller!,
-      //                   visible: _visible,
-      //                   child: AppBar(
-      //                     title: GestureDetector(
-      //                       onTap: () {
-      //                         _navigateToHomeScreen(context);
-      //                       },
-      //                       child: Row(
-      //                         mainAxisAlignment: MainAxisAlignment.start,
-      //                         children: [
-      //                           // SvgPicture.asset(
-      //                           //   'lib/assets/images/logo.svg',
-      //                           //   color: Colors.white,
-      //                           //   height: Dimensions.getScaledSize(28.0),
-      //                           // ),
-      //                         ],
-      //                       ),
-      //                     ),
-      //                     backgroundColor: Provider.of<ThemeModel>(context, listen: true)
-      // .primaryMainColor,
-      //                     actions: [
-      //                       GestureDetector(
-      //                         onTap: () {
-      //                           /*Navigator.of(context)
-      //                         .pushNamed(NotificationsScreen.route);*/
-      //                         },
-      //                         //child: Icon( Icons.notifications,size: Dimensions.getScaledSize(28.0),
-      //                         child: NotificationView(
-      //                           negativePadding: false,
-      //                         ),
-      //                       ),
-      //                       // SizedBox(
-      //                       //   width: Dimensions.getScaledSize(24.0),
-      //                       // ),
-      //                     ],
-      //                   ),
-      //                 )
-      //               : null,
-      //           body: fragment,
-      //           bottomNavigationBar: CustomBottomNavigationBar(
-      //             updateFragment: _updateFragment,
-      //             index: parameter?.bottomNavigationBarIndex ?? 0,
-      //             notificationAction: parameter?.notificationAction,
-      //             notificationData: parameter?.notificationData,
-      //             activityId: parameter?.activityId,
-      //             isBookingRequestType: false,
-      //           ),
-      //         ),
-      //       );
-    }
+                        SizedBox(
+                          width: Dimensions.getScaledSize(24.0),
+                        ),
+                      ],
+                    ),
+                  )
+                : null,
+            body: fragment,
+            bottomNavigationBar: CustomBottomNavigationBar(
+              updateFragment: _updateFragment,
+              index: parameter?.bottomNavigationBarIndex ?? 3,
+              notificationAction: parameter?.notificationAction,
+              notificationData: parameter?.notificationData,
+              activityId: parameter?.activityId,
+              isBookingRequestType: true,
+            ),
+          );
+    // }
   }
 }

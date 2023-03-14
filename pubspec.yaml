@@ -58,6 +58,7 @@ dependencies:
   google_maps_flutter: ^2.0.3
   fluttertoast: ^8.2.1
   location: ^4.1.1
+  google_maps: ^6.2.0
   permission_handler: ^10.2.0
   shimmer: ^2.0.0
   font_awesome_flutter: ^10.4.0

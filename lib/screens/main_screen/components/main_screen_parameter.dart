@@ -3,7 +3,7 @@ import 'package:yucatan/services/notification_service/notification_actions.dart'
 class MainScreenParameter {
   int? bottomNavigationBarIndex;
   NotificationActions? notificationAction;
-  dynamic? notificationData;
+  dynamic notificationData;
   String? activityId = "0";
   bool? isBookingRequestType;
 

@@ -271,12 +271,18 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(30.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(30.0),
+                  ),
                 ),
                 // _buildVideoPlayer(),
-                SizedBox(
-                  height: Dimensions.getScaledSize(30.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(30.0),
+                  ),
                 ),
                 Container(
                   color: Colors.white,
@@ -288,8 +294,11 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                     child: Text('Hi this is best One'),
                   ),
                 ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(15.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(15.0),
+                  ),
                 ),
                 Container(
                   color: Colors.white,
@@ -355,8 +364,11 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(30.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(30.0),
+                  ),
                 ),
                 // Container(
                 //   color: CustomTheme.grey,
@@ -364,8 +376,11 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                 //     activity: widget.hotelData!,
                 //   ),
                 // ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(20.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(20.0),
+                  ),
                 ),
                 Container(
                   color: Colors.white,
@@ -465,72 +480,74 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                 //       )
                 //     :
                 Container(
-                  height: Dimensions.getScaledSize(180),
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: Dimensions.getScaledSize(24),
-                  ),
-                  padding: EdgeInsets.all(
-                    Dimensions.getScaledSize(12),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: CustomTheme.hintText,
+                  color: Colors.white,
+                  child: Container(
+                    height: Dimensions.getScaledSize(180),
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: Dimensions.getScaledSize(24),
                     ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(Dimensions.getScaledSize(10.0)),
+                    padding: EdgeInsets.all(
+                      Dimensions.getScaledSize(12),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            bottom: Dimensions.getScaledSize(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Image.asset(
-                              'lib/assets/images/homescreen3.jpg',
-                              fit: BoxFit.fill,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: CustomTheme.hintText,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(Dimensions.getScaledSize(10.0)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              bottom: Dimensions.getScaledSize(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Image.asset(
+                                'lib/assets/images/homescreen3.jpg',
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: Dimensions.getScaledSize(10),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!
-                                  .hotelDetailesScreen_noReviewsTitle,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Dimensions.getScaledSize(16.0),
-                              ),
-                            ),
-                            SizedBox(
-                              height: Dimensions.getScaledSize(10),
-                            ),
-                            Text(
-                              AppLocalizations.of(context)!
-                                  .hotelDetailesScreen_noReviewsDescription,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: Dimensions.getScaledSize(14),
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          width: Dimensions.getScaledSize(10),
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .hotelDetailesScreen_noReviewsTitle,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Dimensions.getScaledSize(16.0),
+                                ),
+                              ),
+                              SizedBox(
+                                height: Dimensions.getScaledSize(10),
+                              ),
+                              Text(
+                                AppLocalizations.of(context)!
+                                    .hotelDetailesScreen_noReviewsDescription,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: Dimensions.getScaledSize(14),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 // widget.hotelData!.reviewCount != null &&
@@ -542,69 +559,75 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                 // widget.hotelData!.reviewCount != null &&
                 //         widget.hotelData!.reviewCount! > 0
                 //     ?
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(CustomTheme.borderRadius)),
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ReviewsListScreen(
-                          //             activity: widget.hotelData!,
-                          //           ),
-                          //       fullscreenDialog: true),
-                          // );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .hotelDetailesScreen_showAllReviews,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: Dimensions.getScaledSize(14.0),
-                                  color: CustomTheme.primaryColorDark,
-                                ),
-                              ),
-                              Container(
-                                width: Dimensions.getScaledSize(22.0),
-                                height: Dimensions.getScaledSize(22.0),
-                                margin: EdgeInsets.fromLTRB(
-                                    Dimensions.getScaledSize(10.0),
-                                    0,
-                                    Dimensions.getScaledSize(20.0),
-                                    0),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
+                Container(
+                  color: Colors.white,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(CustomTheme.borderRadius)),
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => ReviewsListScreen(
+                            //             activity: widget.hotelData!,
+                            //           ),
+                            //       fullscreenDialog: true),
+                            // );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .hotelDetailesScreen_showAllReviews,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: Dimensions.getScaledSize(14.0),
                                     color: CustomTheme.primaryColorDark,
                                   ),
                                 ),
-                                child: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: Dimensions.getScaledSize(16.0),
-                                  color: CustomTheme.primaryColorDark,
+                                Container(
+                                  width: Dimensions.getScaledSize(22.0),
+                                  height: Dimensions.getScaledSize(22.0),
+                                  margin: EdgeInsets.fromLTRB(
+                                      Dimensions.getScaledSize(10.0),
+                                      0,
+                                      Dimensions.getScaledSize(20.0),
+                                      0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: CustomTheme.primaryColorDark,
+                                    ),
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: Dimensions.getScaledSize(16.0),
+                                    color: CustomTheme.primaryColorDark,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 // : Container(),
-                SizedBox(
-                  height: Dimensions.getScaledSize(20.0),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(20.0),
+                  ),
                 ),
                 Container(
                   height: Dimensions.getScaledSize(300.0),
@@ -709,32 +732,38 @@ class _HotelDetailsDummyState extends State<HotelDetailsDummy> {
                 //     ],
                 //   ),
                 // ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(30.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: Dimensions.getScaledSize(24),
-                    right: Dimensions.getScaledSize(24),
+                Container(
+                  color: Colors.white,
+                  child: SizedBox(
+                    height: Dimensions.getScaledSize(30.0),
                   ),
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .hotelDetailesScreen_otherRecommendations,
-                    style: TextStyle(
-                      fontSize: Dimensions.getScaledSize(18.0),
-                      fontWeight: FontWeight.bold,
-                      color: Provider.of<ThemeModel>(context, listen: true)
-                          .primaryMainColor,
+                ),
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: Dimensions.getScaledSize(24),
+                      right: Dimensions.getScaledSize(24),
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .hotelDetailesScreen_otherRecommendations,
+                      style: TextStyle(
+                        fontSize: Dimensions.getScaledSize(18.0),
+                        fontWeight: FontWeight.bold,
+                        color: Provider.of<ThemeModel>(context, listen: true)
+                            .primaryMainColor,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: Dimensions.getScaledSize(20.0),
-                ),
+                // SizedBox(
+                //   height: Dimensions.getScaledSize(20.0),
+                // ),
                 // RecommendedActivities(activityId: widget!.hotelData!.sId!),
-                SizedBox(
-                  height: bookingBarHeight + Dimensions.getScaledSize(20),
-                ),
+                // SizedBox(
+                //   height: bookingBarHeight + Dimensions.getScaledSize(20),
+                // ),
               ],
             ),
           ),

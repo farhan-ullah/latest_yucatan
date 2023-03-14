@@ -31,7 +31,7 @@ class LogoScreen extends StatefulWidget {
 }
 
 class _LogoScreenState extends State<LogoScreen> {
-  final List<String> language = ['English', 'Detch'];
+  final List<String> language = ['English', 'Deutsch'];
   var selectedValue = 'English';
   var initialIndex = 0;
   var box = Hive.box('myBox');
@@ -107,10 +107,6 @@ class _LogoScreenState extends State<LogoScreen> {
                         children: [
                           const Text('Let us know your configurations'),
                           buildSizedBox(Dimensions.pixels_50),
-                          const Text(
-                            'Please upload your logo',
-                            style: TextStyle(color: Colors.grey),
-                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: GestureDetector(
@@ -120,19 +116,30 @@ class _LogoScreenState extends State<LogoScreen> {
                               child: Container(
                                 height: 40,
                                 width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   // borderRadius: BorderRadius.circular(4),
                                   // color: Colors.pink,
                                   border: Border(
-                                    top: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey.shade600),
-                                    bottom: const BorderSide(
+                                    // top: BorderSide(
+                                    //     width: 1.0,
+                                    //     color: Colors.grey.shade600),
+                                    bottom: BorderSide(
                                         width: 1.0, color: Colors.black),
-                                    left: const BorderSide(
-                                        width: 1.0, color: Colors.black),
-                                    right: const BorderSide(
-                                        width: 1.0, color: Colors.black),
+                                    // left: const BorderSide(
+                                    //     width: 1.0, color: Colors.black),
+                                    // right: const BorderSide(
+                                    //     width: 1.0, color: Colors.black),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      Dimensions.getScaledSize(20.0),
+                                      Dimensions.getScaledSize(10.0),
+                                      0,
+                                      0),
+                                  child: const Text(
+                                    'Please upload your logo',
+                                    style: TextStyle(color: Colors.grey),
                                   ),
                                 ),
                               ),
@@ -174,10 +181,7 @@ class _LogoScreenState extends State<LogoScreen> {
                             ),
                           ),
                           buildSizedBox(Dimensions.pixels_50),
-                          const Text(
-                            'Please tell us your primary colors',
-                            style: TextStyle(color: Colors.grey),
-                          ),
+
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: GestureDetector(
@@ -223,19 +227,30 @@ class _LogoScreenState extends State<LogoScreen> {
                               child: Container(
                                 height: 40,
                                 width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   // borderRadius: BorderRadius.circular(4),
                                   // color: Colors.pink,
                                   border: Border(
-                                    top: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey.shade600),
-                                    bottom: const BorderSide(
+                                    // top: BorderSide(
+                                    //     width: 1.0,
+                                    //     color: Colors.grey.shade600),
+                                    bottom: BorderSide(
                                         width: 1.0, color: Colors.black),
-                                    left: const BorderSide(
-                                        width: 1.0, color: Colors.black),
-                                    right: const BorderSide(
-                                        width: 1.0, color: Colors.black),
+                                    // left: const BorderSide(
+                                    //     width: 1.0, color: Colors.black),
+                                    // right: const BorderSide(
+                                    //     width: 1.0, color: Colors.black),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      Dimensions.getScaledSize(20.0),
+                                      Dimensions.getScaledSize(10.0),
+                                      0,
+                                      0),
+                                  child: const Text(
+                                    'Please tell us your primary colors',
+                                    style: TextStyle(color: Colors.grey),
                                   ),
                                 ),
                               ),
@@ -288,7 +303,7 @@ class _LogoScreenState extends State<LogoScreen> {
                                     setState(() {
                                       selectedValue = value!;
                                     });
-                                    if (selectedValue == 'Detch') {
+                                    if (selectedValue == 'Deutsch') {
                                       Provider.of<ThemeModel>(context,
                                               listen: false)
                                           .setLocale(Locale('de'));
@@ -409,18 +424,19 @@ class _LogoScreenState extends State<LogoScreen> {
                         if (initialIndex == 0) {
                           initialIndex++;
                         } else if (initialIndex == 1) {
-                          if (emailController.text.isEmpty ||
-                              firstController.text.isEmpty ||
-                              lastController.text.isEmpty ||
-                              organizationController.text.isEmpty ||
-                              phoneController.text.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Please Enter Full Data"),
-                              duration: Duration(milliseconds: 300),
-                            ));
-                          } else {
-                            initialIndex++;
-                          }
+                          // if (emailController.text.isEmpty ||
+                          //     firstController.text.isEmpty ||
+                          //     lastController.text.isEmpty ||
+                          //     organizationController.text.isEmpty ||
+                          //     phoneController.text.isEmpty) {
+                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          //     content: Text("Please Enter Full Data"),
+                          //     duration: Duration(milliseconds: 300),
+                          //   ));
+                          // }
+                          // else {
+                          initialIndex++;
+                          // }
                         } else {
                           Navigator.of(context)
                               .popAndPushNamed(OnboardingScreen.route);
