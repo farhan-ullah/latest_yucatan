@@ -9,6 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yucatan/screens/booking/components/customCalendar.dart';
+import 'package:yucatan/screens/payment_credit_card_screen/components/credit_card_dummy.dart';
+import 'package:yucatan/screens/payment_credit_card_screen/components/payment_card_dummy.dart';
 import 'package:yucatan/theme/custom_theme.dart';
 import 'package:yucatan/utils/theme_model.dart';
 import 'package:yucatan/utils/widget_dimensions.dart';
@@ -406,6 +408,10 @@ class _BookingScreenDummyState extends State<BookingScreenDummy> {
                               child: GestureDetector(
                                 onTap: () {
                                   // widget.onTap();
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) => CreditCardPage()),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(

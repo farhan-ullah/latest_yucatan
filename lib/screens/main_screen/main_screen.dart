@@ -34,6 +34,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget fragment = Container();
   String appLink = "";
+  AnimationController? animationController;
   UserLoginModel? user;
   bool showAppBar = true;
 
@@ -72,6 +73,12 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
+    );
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 400), vsync: this);
+    fragment = ActivityListScreen(
+      animationController: animationController!,
+      activityId: '',
     );
     // eventBus.on<OnAppLinkClick>().listen((OnAppLinkClick event) {
     //   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -120,6 +127,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     MainScreenParameter? parameter =
         ModalRoute.of(context)!.settings.arguments as MainScreenParameter?;
+    print('===========================> ${parameter?.activityId}');
     // SizeConfig().init(context);
 
     // if (fragment is ResetPassword) {
@@ -152,8 +160,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Container(
-                                height: Dimensions.getHeight(percentage: 15.0),
-                                width: Dimensions.getWidth(percentage: 15.0),
+                                height: 50,
+                                width: 100,
                                 child: FutureBuilder(
                                   future:
                                       checkCondition(), // a Future<String> or null
@@ -195,7 +203,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             body: fragment,
             bottomNavigationBar: CustomBottomNavigationBar(
               updateFragment: _updateFragment,
-              index: parameter?.bottomNavigationBarIndex ?? 3,
+              index: parameter?.bottomNavigationBarIndex ?? 0,
               notificationAction: parameter?.notificationAction,
               notificationData: parameter?.notificationData,
               activityId: parameter?.activityId,
@@ -220,8 +228,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Container(
-                                height: Dimensions.getHeight(percentage: 15.0),
-                                width: Dimensions.getWidth(percentage: 15.0),
+                                height: 50,
+                                width: 100,
                                 child: FutureBuilder(
                                   future:
                                       checkCondition(), // a Future<String> or null
@@ -257,7 +265,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             body: fragment,
             bottomNavigationBar: CustomBottomNavigationBar(
               updateFragment: _updateFragment,
-              index: parameter?.bottomNavigationBarIndex ?? 3,
+              index: parameter?.bottomNavigationBarIndex ?? 0,
               notificationAction: parameter?.notificationAction,
               notificationData: parameter?.notificationData,
               activityId: parameter?.activityId,

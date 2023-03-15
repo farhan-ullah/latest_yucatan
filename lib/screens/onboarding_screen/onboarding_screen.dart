@@ -44,7 +44,7 @@ class _OnboardingState extends State<OnboardingScreen> {
   void finish(BuildContext context) async {
     // var prefs = await SharedPreferences.getInstance();
     // prefs.setBool("FirstOpen-Flag", false);
-    Navigator.of(context).popAndPushNamed(MainScreen.route);
+    Navigator.of(context).pushNamed(MainScreen.route);
   }
 
   @override

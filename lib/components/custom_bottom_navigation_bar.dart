@@ -111,12 +111,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
         notificationData: widget.notificationData,
         isBookingRequestType: widget.isBookingRequestType,
       ),
-      // ActivityMapScreen(),
-      SizedBox(
-        height: Dimensions.getHeight(percentage: 100),
-        width: Dimensions.getWidth(percentage: 100),
-        child: GoogleMap(),
-      ),
+      ActivityMapScreen(),
+      // SizedBox(
+      //   height: Dimensions.getHeight(percentage: 100),
+      //   width: Dimensions.getWidth(percentage: 100),
+      //   child: GoogleMapDummy(),
+      // ),
       // FavoritesScreen(),
       BookingListScreenOffline(
         notificationAction: widget.notificationAction,

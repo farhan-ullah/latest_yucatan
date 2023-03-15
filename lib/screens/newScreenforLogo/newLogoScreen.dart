@@ -11,6 +11,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:yucatan/screens/main_screen/main_screen.dart';
 import 'package:yucatan/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:yucatan/utils/check_condition.dart';
 import 'package:yucatan/utils/color_utils.dart';
@@ -424,22 +425,21 @@ class _LogoScreenState extends State<LogoScreen> {
                         if (initialIndex == 0) {
                           initialIndex++;
                         } else if (initialIndex == 1) {
-                          // if (emailController.text.isEmpty ||
-                          //     firstController.text.isEmpty ||
-                          //     lastController.text.isEmpty ||
-                          //     organizationController.text.isEmpty ||
-                          //     phoneController.text.isEmpty) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //     content: Text("Please Enter Full Data"),
-                          //     duration: Duration(milliseconds: 300),
-                          //   ));
-                          // }
-                          // else {
-                          initialIndex++;
-                          // }
+                          if (emailController.text.isEmpty ||
+                              firstController.text.isEmpty ||
+                              lastController.text.isEmpty ||
+                              organizationController.text.isEmpty ||
+                              phoneController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please Enter Full Data"),
+                              duration: Duration(milliseconds: 300),
+                            ));
+                          } else {
+                            initialIndex++;
+                          }
                         } else {
                           Navigator.of(context)
-                              .popAndPushNamed(OnboardingScreen.route);
+                              .pushNamed(OnboardingScreen.route);
                         }
                       });
                     },

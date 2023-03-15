@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps/google_maps.dart';
 import 'dart:ui' as ui;
 
-class GoogleMap extends StatelessWidget {
+class GoogleMapDummy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String htmlId = "7";

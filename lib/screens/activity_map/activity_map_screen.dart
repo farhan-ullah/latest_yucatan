@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:yucatan/screens/activity_map/components/google_map_web.dart';
 import 'package:provider/provider.dart';
+import 'package:yucatan/screens/hotelDetailes/hotel_details_dummy_data.dart';
 import 'package:yucatan/utils/theme_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:yucatan/models/activity_model.dart';
@@ -112,23 +115,28 @@ class _ActivityMapScreenState extends DateState<ActivityMapScreen> {
           Expanded(
             child: Stack(
               children: [
-                GoogleMap(
-                  initialCameraPosition:
-                      CameraPosition(target: _initialcameraposition, zoom: 8),
-                  mapType: MapType.normal,
-                  onMapCreated: _onMapCreated,
-                  myLocationEnabled: true,
-                  markers: markers,
-                  mapToolbarEnabled: false,
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  zoomGesturesEnabled: true,
-                  tiltGesturesEnabled: false,
-                  onTap: (LatLng latLng) {
-                    showAppBar = !showAppBar!;
-                    eventBus.fire(OnMapClickCallback(showAppBar!));
-                  },
+                SizedBox(
+                  height: Dimensions.getHeight(percentage: 100),
+                  width: Dimensions.getWidth(percentage: 100),
+                  child: GoogleMapDummy(),
                 ),
+                // GoogleMap(
+                //   initialCameraPosition:
+                //       CameraPosition(target: _initialcameraposition, zoom: 8),
+                //   mapType: MapType.normal,
+                //   onMapCreated: _onMapCreated,
+                //   myLocationEnabled: true,
+                //   markers: markers,
+                //   mapToolbarEnabled: false,
+                //   zoomControlsEnabled: false,
+                //   myLocationButtonEnabled: false,
+                //   zoomGesturesEnabled: true,
+                //   tiltGesturesEnabled: false,
+                //   onTap: (LatLng latLng) {
+                //     showAppBar = !showAppBar!;
+                //     eventBus.fire(OnMapClickCallback(showAppBar!));
+                //   },
+                // ),
                 Stack(
                   children: [
                     Align(
@@ -175,18 +183,17 @@ class _ActivityMapScreenState extends DateState<ActivityMapScreen> {
                           //     ),
                           //   ),
                           // ),
-                          CarouselSlider(
-                            carouselController: carouselController,
-                            items: _buildRecommendedActivities(activities),
-                            options: CarouselOptions(
-                              height: Dimensions.getHeight(percentage: 29.0),
-                              viewportFraction: 0.7,
-                              onPageChanged: (index, reason) {
-                                Vibrate.feedback(FeedbackType.selection);
-
-                                _setLargeIconForActivity(activities[index]);
-                                _adjustMapsCamera(index);
+                          Container(
+                            height: Dimensions.getHeight(percentage: 29.0),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return _dataActivityListViewItem('Outdoor');
                               },
+                              itemCount: 5,
+                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.only(
+                                  left: Dimensions.getScaledSize(12.0)),
                             ),
                           ),
                         ],
@@ -200,6 +207,294 @@ class _ActivityMapScreenState extends DateState<ActivityMapScreen> {
         ],
       ),
     );
+  }
+
+  Container _dataActivityListViewItem(String textTitle) {
+    return Container(
+        child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.getScaledSize(12.0)),
+      child: Column(
+        children: [
+          Container(
+            width: Dimensions.getScaledSize(280),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  Dimensions.getScaledSize(16.0),
+                ),
+              ),
+              color: CustomTheme.backgroundColor,
+              boxShadow: CustomTheme.shadow,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => HotelDetailsDummy(),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                    Radius.circular(Dimensions.getScaledSize(16.0))),
+                child: Column(
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Stack(
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          Dimensions.getScaledSize(16.0))),
+                                ),
+                                width: Dimensions.getScaledSize(280),
+                                height: Dimensions.getHeight(percentage: 20.0),
+                                child: Image.asset(
+                                  'lib/assets/images/homescreen3.jpg',
+                                  fit: BoxFit.fill,
+                                )),
+                            Positioned(
+                              bottom: Dimensions.getScaledSize(10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        Dimensions.getScaledSize(10.0),
+                                        0,
+                                        0,
+                                        0),
+                                    height: Dimensions.getScaledSize(40.0),
+                                    width: Dimensions.getScaledSize(280) -
+                                        Dimensions.getScaledSize(135.0),
+                                    child: Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Text(
+                                        textTitle,
+                                        overflow: TextOverflow.clip,
+                                        textAlign: TextAlign.left,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize:
+                                                Dimensions.getScaledSize(17.0),
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height: Dimensions.getScaledSize(3.0)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          top: Dimensions.getScaledSize(8.0),
+                          right: Dimensions.getScaledSize(8.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: Dimensions.getScaledSize(32.0),
+                              width: Dimensions.getScaledSize(32.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.getScaledSize(48.0)),
+                                color: Colors.white,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.favorite_border,
+                                  size: Dimensions.getScaledSize(24.0),
+                                  color: CustomTheme.accentColor1,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(
+                            Dimensions.getScaledSize(16.0),
+                          ),
+                          bottomRight: Radius.circular(
+                            Dimensions.getScaledSize(16.0),
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                  Dimensions.getScaledSize(8.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            SizedBox(
+                                              height:
+                                                  Dimensions.getScaledSize(5.0),
+                                            ),
+                                            Row(
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.location_on_outlined,
+                                                  size:
+                                                      Dimensions.getScaledSize(
+                                                          16.0),
+                                                  color: CustomTheme
+                                                      .primaryColorDark,
+                                                ),
+                                                SizedBox(
+                                                  width:
+                                                      Dimensions.getScaledSize(
+                                                          5.0),
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                      top: Dimensions
+                                                          .getScaledSize(3),
+                                                    ),
+                                                    child: Text(
+                                                      'Germany',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: Dimensions
+                                                            .getScaledSize(
+                                                                13.0),
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: Dimensions.getScaledSize(
+                                                    4.0),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: <Widget>[
+                                                  SmoothStarRating(
+                                                    isReadOnly: true,
+                                                    allowHalfRating: true,
+                                                    starCount: 1,
+                                                    rating: 1,
+                                                    size: Dimensions
+                                                        .getScaledSize(18.0),
+                                                    color: CustomTheme
+                                                        .accentColor3,
+                                                    borderColor: CustomTheme
+                                                        .primaryColor,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        "4",
+                                                        style: TextStyle(
+                                                          fontSize: Dimensions
+                                                              .getScaledSize(
+                                                                  13.0),
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "20",
+                                                        style: TextStyle(
+                                                          fontSize: Dimensions
+                                                              .getScaledSize(
+                                                                  13.0),
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Positioned(
+                                          bottom: -5,
+                                          right: 0,
+                                          child: Row(
+                                            textBaseline:
+                                                TextBaseline.alphabetic,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.baseline,
+                                            children: [
+                                              Text(
+                                                "${AppLocalizations.of(context)!.activityScreen_from} ",
+                                                style: TextStyle(
+                                                    fontSize: Dimensions
+                                                        .getScaledSize(13.0),
+                                                    color: Colors.grey),
+                                              ),
+                                              Text(
+                                                '8.0',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: Dimensions
+                                                        .getScaledSize(21.0),
+                                                    color: CustomTheme
+                                                        .primaryColorDark),
+                                              ),
+                                              Text(
+                                                "€",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: Dimensions
+                                                        .getScaledSize(18.0),
+                                                    color: CustomTheme
+                                                        .primaryColorDark),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {

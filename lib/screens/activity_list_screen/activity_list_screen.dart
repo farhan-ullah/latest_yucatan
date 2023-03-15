@@ -492,51 +492,50 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                         Stack(
                           children: [
                             Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          Dimensions.getScaledSize(16.0))),
+                                ),
+                                width: Dimensions.getScaledSize(280),
                                 height: Dimensions.getHeight(percentage: 20.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Image.asset(
-                                    'lib/assets/images/homescreen3.jpg',
-                                    fit: BoxFit.fill,
-                                  ),
+                                child: Image.asset(
+                                  'lib/assets/images/homescreen3.jpg',
+                                  fit: BoxFit.fill,
                                 )),
                             Positioned(
                               bottom: Dimensions.getScaledSize(10.0),
-                              child: Container(
-                                width: Dimensions.getWidth(percentage: 30.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          Dimensions.getScaledSize(10.0),
-                                          0,
-                                          0,
-                                          0),
-                                      height: Dimensions.getScaledSize(40.0),
-                                      width: Dimensions.getScaledSize(280) -
-                                          Dimensions.getScaledSize(135.0),
-                                      child: Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: Text(
-                                          textTitle,
-                                          overflow: TextOverflow.clip,
-                                          textAlign: TextAlign.left,
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize:
-                                                  Dimensions.getScaledSize(
-                                                      17.0),
-                                              color: Colors.white),
-                                        ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        Dimensions.getScaledSize(10.0),
+                                        0,
+                                        0,
+                                        0),
+                                    height: Dimensions.getScaledSize(40.0),
+                                    width: Dimensions.getScaledSize(280) -
+                                        Dimensions.getScaledSize(135.0),
+                                    child: Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Text(
+                                        textTitle,
+                                        overflow: TextOverflow.clip,
+                                        textAlign: TextAlign.left,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize:
+                                                Dimensions.getScaledSize(17.0),
+                                            color: Colors.white),
                                       ),
                                     ),
-                                    SizedBox(
-                                        height: Dimensions.getScaledSize(3.0)),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                      height: Dimensions.getScaledSize(3.0)),
+                                ],
                               ),
                             ),
                           ],
