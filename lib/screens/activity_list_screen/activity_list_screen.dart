@@ -117,23 +117,23 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
     controller = ScrollController(initialScrollOffset: 0.0);
 
     controller!.addListener(() {
-      // if (context != null) {
-      //   if (controller!.offset < 0) {
-      //     // we static set the just below half scrolling values
-      //     _animationController!.animateTo(0.0);
-      //   } else if (controller!.offset > 0.0 &&
-      //       controller!.offset < sliderImageHeight) {
-      //     // we need around half scrolling values
-      //     if (controller!.offset < ((sliderImageHeight / 1.5))) {
-      //       _animationController!
-      //           .animateTo((controller!.offset / sliderImageHeight));
-      //     } else {
-      //       // we static set the just above half scrolling values "around == 0.64"
-      //       _animationController!
-      //           .animateTo((sliderImageHeight / 1.5) / sliderImageHeight);
-      //     }
-      //   }
-      // }
+      if (context != null) {
+        if (controller!.offset < 0) {
+          // we static set the just below half scrolling values
+          _animationController!.animateTo(0.0);
+        } else if (controller!.offset > 0.0 &&
+            controller!.offset < sliderImageHeight) {
+          // we need around half scrolling values
+          if (controller!.offset < ((sliderImageHeight / 1.5))) {
+            _animationController!
+                .animateTo((controller!.offset / sliderImageHeight));
+          } else {
+            // we static set the just above half scrolling values "around == 0.64"
+            _animationController!
+                .animateTo((sliderImageHeight / 1.5) / sliderImageHeight);
+          }
+        }
+      }
     });
     // user = UserProvider.getUser();
     // onDateChanged(GlobalDate.current());
@@ -160,10 +160,10 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                     physics: const NeverScrollableScrollPhysics(),
                     child: Container(
                       height: MediaQuery.of(context).size.height -
-                          Dimensions.getScaledSize(
-                              63) /*+
+                          Dimensions.getScaledSize(63),
+                      /*+
                       MediaQuery.of(context).padding.bottom*/
-                      ,
+
                       child: Stack(
                         children: [
                           Container(
@@ -357,9 +357,9 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                           ),
                           // serachUI on Top  Positioned
                           Positioned(
-                            top: MediaQuery.of(context).padding.top,
+                            top: 2,
                             left: 0,
-                            right: 0,
+                            right: 30,
                             child: searchUi(),
                           ),
                           Positioned(
@@ -762,6 +762,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                     (_animationController!.value > 0.64
                         ? 1.0
                         : _animationController!.value);
+
                 return SizedBox(
                   height: sliderImageHeight *
                               (1.0 - _animationController!.value) >=
@@ -971,7 +972,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                         },
                         child: Icon(
                           Icons.search_outlined,
-                          size: Dimensions.getScaledSize(28.0),
+                          size: Dimensions.getScaledSize(30.0),
                           color: Colors.white,
                         ),
                       ),

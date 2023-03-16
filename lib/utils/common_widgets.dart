@@ -12,8 +12,8 @@ class CommonWidget {
   static Widget showSpinner() {
     return Center(
       child: CircularProgressIndicator(
-          valueColor: new AlwaysStoppedAnimation<Color>(
-              CustomTheme.theme.primaryColor)),
+          valueColor:
+              AlwaysStoppedAnimation<Color>(CustomTheme.theme.primaryColor)),
     );
   }
 

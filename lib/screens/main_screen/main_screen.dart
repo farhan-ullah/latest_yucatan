@@ -157,30 +157,27 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                height: 50,
-                                width: 100,
-                                child: FutureBuilder(
-                                  future:
-                                      checkCondition(), // a Future<String> or null
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<Uint8List> snapshot) {
-                                    return snapshot.hasData
-                                        ? Image.memory(snapshot.data!)
-                                        : Image.asset(
-                                            'lib/assets/images/appventure_icon_white.png');
-                                    // RiveAnimation(
-                                    //     riveFileName: 'app-start.riv',
-                                    //     riveAnimationName: 'Animation 1',
-                                    //     placeholderImage:
-                                    //         'lib/assets/images/appventure_icon_white.png',
-                                    //     startAnimationAfterMilliseconds:
-                                    //         2,
-                                    //   );
-                                  },
-                                ),
+                            Container(
+                              height: 50,
+                              width: 80,
+                              child: FutureBuilder(
+                                future:
+                                    checkCondition(), // a Future<String> or null
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<Uint8List> snapshot) {
+                                  return snapshot.hasData
+                                      ? Image.memory(snapshot.data!)
+                                      : Image.asset(
+                                          'lib/assets/images/appventure_icon_white.png');
+                                  // RiveAnimation(
+                                  //     riveFileName: 'app-start.riv',
+                                  //     riveAnimationName: 'Animation 1',
+                                  //     placeholderImage:
+                                  //         'lib/assets/images/appventure_icon_white.png',
+                                  //     startAnimationAfterMilliseconds:
+                                  //         2,
+                                  //   );
+                                },
                               ),
                             ),
                           ],
@@ -225,22 +222,19 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                height: 50,
-                                width: 100,
-                                child: FutureBuilder(
-                                  future:
-                                      checkCondition(), // a Future<String> or null
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<Uint8List> snapshot) {
-                                    return snapshot.hasData
-                                        ? Image.memory(snapshot.data!)
-                                        : Image.asset(
-                                            'lib/assets/images/appventure_icon_white.png');
-                                  },
-                                ),
+                            Container(
+                              height: 50,
+                              width: 80,
+                              child: FutureBuilder(
+                                future:
+                                    checkCondition(), // a Future<String> or null
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<Uint8List> snapshot) {
+                                  return snapshot.hasData
+                                      ? Image.memory(snapshot.data!)
+                                      : Image.asset(
+                                          'lib/assets/images/appventure_icon_white.png');
+                                },
                               ),
                             ),
                           ],

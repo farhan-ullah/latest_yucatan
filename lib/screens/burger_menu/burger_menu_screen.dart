@@ -8,6 +8,7 @@ import 'package:yucatan/screens/notifications/notifications_screen.dart';
 import 'package:yucatan/services/database/database_service.dart';
 import 'package:yucatan/services/user_provider.dart';
 import 'package:yucatan/theme/custom_theme.dart';
+import 'dart:html' as html;
 import 'package:yucatan/utils/theme_model.dart';
 import 'package:yucatan/utils/widget_dimensions.dart';
 import 'package:flutter/material.dart';
@@ -138,8 +139,10 @@ class _BurgerMenuScreenState extends State<BurgerMenuScreen> {
     _widgets.add(BurgerMenuListItem(
       text: AppLocalizations.of(context)!
           .burger_menu_imprint_data_protection_text,
-      tapActionPre: () async =>
-          {Navigator.of(context).pushNamed(ImpressumDatenschutz.route)},
+      tapActionPre: () async => {
+        html.window.open("https://www.myappventure.de/impressum", "_self"),
+        // Navigator.of(context).pushNamed(ImpressumDatenschutz.route)
+      },
       showSvg: true,
       svgPath: "lib/assets/images/policy_black_24dp.svg",
     ));

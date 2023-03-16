@@ -47,7 +47,8 @@ class _ProfileFieldState extends State<ProfileField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return 
+    Padding(
         padding: EdgeInsets.only(
             left: Dimensions.getScaledSize(
                 widget.isComingFromContactScreen! ? 0 : 10.0),

@@ -138,7 +138,7 @@ class _ImpressumDatenschutzState extends State<ImpressumDatenschutz> {
                       url: Uri.parse(getViews(_currentWebViewValue!))),
                   initialOptions: InAppWebViewGroupOptions(),
                   onWebViewCreated: (InAppWebViewController controller) {
-                    this.webViewController = controller;
+                    webViewController = controller;
                   },
                   onLoadStart: (
                     InAppWebViewController? controller,
