@@ -8,6 +8,9 @@
   "@commonWords_app_name": {
     "description": "App name"
   },
+  "organiztion": "Organisation",
+  "welcomedescription": "Wir geben Ihnen innerhalb von Sekunden eine konkrete Vorschau der App für Ihr Ziel.\nBitte geben Sie die unten angeforderten Informationen an.",
+  "welcometoAppVentureDemo":"Willkommen bei der AppVenture-Demo.",
   "commonWords_notifications": "Benachrichtigungen",
   "@commonWords_notifications": {
     "description": "Notifications"

@@ -5,6 +5,7 @@ import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -32,7 +33,7 @@ class LogoScreen extends StatefulWidget {
 }
 
 class _LogoScreenState extends State<LogoScreen> {
-  final List<String> language = ['English', 'Deutsch'];
+  final List<String> language = ['English', 'Deutsch', 'Espanish'];
   var selectedValue = 'English';
   var initialIndex = 0;
   var box = Hive.box('myBox');
@@ -65,7 +66,7 @@ class _LogoScreenState extends State<LogoScreen> {
                     height: Dimensions.pixels_18,
                   ),
                   Text(
-                    'Welcome to AppVenture Demo.',
+                    AppLocalizations.of(context)!.welcometoAppVentureDemo,
                     style: TextStyle(
                         fontSize: Dimensions.getScaledSize(17.0),
                         fontWeight: FontWeight.w500,
@@ -74,8 +75,8 @@ class _LogoScreenState extends State<LogoScreen> {
                   SizedBox(
                     height: Dimensions.pixels_18,
                   ),
-                  const Text(
-                    'We will give you a concrete preview of the app for your destination within seconds.\nPlease share the below requsted information.',
+                  Text(
+                    AppLocalizations.of(context)!.welcomedescription,
                     textAlign: TextAlign.center,
                   ),
                   Padding(
@@ -148,6 +149,7 @@ class _LogoScreenState extends State<LogoScreen> {
                           ),
                           buildSizedBox(Dimensions.pixels_20),
                           Container(
+                            color: Colors.grey.withOpacity(0.4),
                             height: Dimensions.getHeight(percentage: 25.0),
                             child: FutureBuilder(
                               future:
@@ -308,6 +310,10 @@ class _LogoScreenState extends State<LogoScreen> {
                                       Provider.of<ThemeModel>(context,
                                               listen: false)
                                           .setLocale(Locale('de'));
+                                    } else if (selectedValue == 'Espanish') {
+                                      Provider.of<ThemeModel>(context,
+                                              listen: false)
+                                          .setLocale(Locale('es'));
                                     } else {
                                       Provider.of<ThemeModel>(context,
                                               listen: false)
@@ -337,7 +343,9 @@ class _LogoScreenState extends State<LogoScreen> {
                                     flex: 1,
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          hintText: 'First name',
+                                          hintText:
+                                              AppLocalizations.of(context)!
+                                                  .contact_firstname,
                                           // AppLocalizations.of(context)!
                                           //     .forgotPasswordScreen_emailHint,
                                           hintStyle: TextStyle(
@@ -354,7 +362,9 @@ class _LogoScreenState extends State<LogoScreen> {
                                     flex: 1,
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          hintText: 'Last name',
+                                          hintText:
+                                              AppLocalizations.of(context)!
+                                                  .contact_lastname,
                                           // AppLocalizations.of(context)!
                                           //     .forgotPasswordScreen_emailHint,
                                           hintStyle: TextStyle(
@@ -369,7 +379,8 @@ class _LogoScreenState extends State<LogoScreen> {
                               buildSizedBox(Dimensions.pixels_30),
                               TextField(
                                 decoration: InputDecoration(
-                                    hintText: 'Organization',
+                                    hintText: AppLocalizations.of(context)!
+                                        .organiztion,
                                     // AppLocalizations.of(context)!
                                     //     .forgotPasswordScreen_emailHint,
                                     hintStyle: TextStyle(
@@ -381,7 +392,8 @@ class _LogoScreenState extends State<LogoScreen> {
                               buildSizedBox(Dimensions.pixels_30),
                               TextField(
                                 decoration: InputDecoration(
-                                    hintText: 'E-mail-address',
+                                    hintText: AppLocalizations.of(context)!
+                                        .contact_email,
                                     // AppLocalizations.of(context)!
                                     //     .forgotPasswordScreen_emailHint,
                                     hintStyle: TextStyle(
@@ -393,7 +405,8 @@ class _LogoScreenState extends State<LogoScreen> {
                               buildSizedBox(Dimensions.pixels_30),
                               TextField(
                                 decoration: InputDecoration(
-                                    hintText: 'Phone No.',
+                                    hintText: AppLocalizations.of(context)!
+                                        .contact_phone,
                                     // AppLocalizations.of(context)!
                                     //     .forgotPasswordScreen_emailHint,
                                     hintStyle: TextStyle(

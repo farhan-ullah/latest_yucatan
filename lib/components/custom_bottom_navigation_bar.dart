@@ -7,6 +7,7 @@ import 'package:yucatan/screens/booking_list_screen/booking_list_screen_offline.
 import 'package:yucatan/screens/burger_menu/burger_menu_screen.dart';
 import 'package:yucatan/screens/favorites_screen/favorites_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:yucatan/screens/favorites_screen/favourite_screen_dummy.dart';
 import 'package:yucatan/utils/theme_model.dart';
 import 'package:yucatan/screens/qr_scanner/qr_scanner_screen.dart';
 import 'package:yucatan/screens/vendor/activity_overview/activity_overview.dart';
@@ -117,12 +118,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
       //   width: Dimensions.getWidth(percentage: 100),
       //   child: GoogleMapDummy(),
       // ),
-      // FavoritesScreen(),
-      BookingListScreenOffline(
-        notificationAction: widget.notificationAction,
-        notificationData: widget.notificationData,
-        isBookingRequestType: widget.isBookingRequestType,
-      ),
+      FavouriteScreenDummy(),
+      // BookingListScreenOffline(
+      //   notificationAction: widget.notificationAction,
+      //   notificationData: widget.notificationData,
+      //   isBookingRequestType: widget.isBookingRequestType,
+      // ),
       BurgerMenuScreen(),
     ];
 
