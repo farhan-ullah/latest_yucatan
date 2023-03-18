@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yucatan/utils/theme_model.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'dart:ui' as ui;
+import 'dart:html';
 
 class ImpressumDatenschutz extends StatefulWidget {
   static const String route = '/impressum_datenschutz';
@@ -27,6 +29,7 @@ class _ImpressumDatenschutzState extends State<ImpressumDatenschutz> {
   final GlobalKey webViewKey = GlobalKey();
   InAppWebViewController? webViewController;
   WebViewValues? _currentWebViewValue;
+
   List<String> webPages = [
     "https://myappventure.de",
     "https://myappventure.de",
@@ -49,6 +52,43 @@ class _ImpressumDatenschutzState extends State<ImpressumDatenschutz> {
       webPages[2] = legalDocWebPageResponse.data!.privacy!;
       webPages[3] = legalDocWebPageResponse.data!.rightOfWithdrawal!;
     });
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(
+        'hello-world-html',
+        (int viewId) => IFrameElement()
+          ..width = '640'
+          ..height = '360'
+          ..src = 'https://www.myappventure.de/impressum'
+          ..style.border = 'none');
+          
+    // ignore: undefined_prefixed_name
+     ui.platformViewRegistry.registerViewFactory(
+        'hello-world-html1',
+        (int viewId) => IFrameElement()
+          ..width = '640'
+          ..height = '360'
+          ..src = 'https://www.myappventure.de/agbs'
+          ..style.border = 'none');
+
+    // ignore: undefined_prefixed_name
+       ui.platformViewRegistry.registerViewFactory(
+        'hello-world-html2',
+        (int viewId) => IFrameElement()
+          ..width = '640'
+          ..height = '360'
+          ..src = 'https://www.myappventure.de/datenschutzrichtlinien'
+          ..style.border = 'none');
+
+
+
+    // ignore: undefined_prefixed_name
+           ui.platformViewRegistry.registerViewFactory(
+        'hello-world-html3',
+        (int viewId) => IFrameElement()
+          ..width = '640'
+          ..height = '360'
+          ..src = 'https://www.myappventure.de/widerrufsbelehrung'
+          ..style.border = 'none');
   }
 
   @override
@@ -126,27 +166,31 @@ class _ImpressumDatenschutzState extends State<ImpressumDatenschutz> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(
-                    left: Dimensions.getScaledSize(10.0),
-                    right: Dimensions.getScaledSize(10.0)),
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.white,
-                child: InAppWebView(
-                  key: webViewKey,
-                  initialUrlRequest: URLRequest(
-                      url: Uri.parse(getViews(_currentWebViewValue!))),
-                  initialOptions: InAppWebViewGroupOptions(),
-                  onWebViewCreated: (InAppWebViewController controller) {
-                    webViewController = controller;
-                  },
-                  onLoadStart: (
-                    InAppWebViewController? controller,
-                    Uri? url,
-                  ) {},
-                  onUpdateVisitedHistory: (_, Uri? uri, __) {},
-                ),
-              ),
+                  padding: EdgeInsets.only(
+                      left: Dimensions.getScaledSize(10.0),
+                      right: Dimensions.getScaledSize(10.0)),
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.white,
+                  child: _currentWebViewValue == WebViewValues.IMPRINT ?
+                  HtmlElementView(viewType: 'hello-world-html'): _currentWebViewValue == WebViewValues.TOS ?
+                  HtmlElementView(viewType: 'hello-world-html1'): _currentWebViewValue == WebViewValues.PRIVACY ?
+                  HtmlElementView(viewType: 'hello-world-html2'):HtmlElementView(viewType: 'hello-world-html3')
+                  //  InAppWebView(
+                  //   key: webViewKey,
+                  //   initialUrlRequest: URLRequest(
+                  //       url: Uri.parse(getViews(_currentWebViewValue!))),
+                  //   initialOptions: InAppWebViewGroupOptions(),
+                  //   onWebViewCreated: (InAppWebViewController controller) {
+                  //     webViewController = controller;
+                  //   },
+                  //   onLoadStart: (
+                  //     InAppWebViewController? controller,
+                  //     Uri? url,
+                  //   ) {},
+                  //   onUpdateVisitedHistory: (_, Uri? uri, __) {},
+                  // ),
+                  ),
             ),
             SizedBox(height: Dimensions.getScaledSize(12)),
           ],

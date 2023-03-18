@@ -101,13 +101,14 @@ class _ForgotScreenState extends State<ForgotScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
               Stack(
                 children: [
                   Container(
+                    color: Colors.grey.withOpacity(0.2),
                     width: double.infinity,
                     child: FutureBuilder(
                       future: checkCondition(), // a Future<String> or null
@@ -141,8 +142,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
                     ),
                   ),
                   Positioned(
-                      top: MediaQuery.of(context).padding.top + 5,
-                      left: Dimensions.getScaledSize(38),
+                      top: Dimensions.getHeight(percentage: 2),
+                      left: Dimensions.getScaledSize(8),
                       child: GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
                         child: SvgPicture.asset(

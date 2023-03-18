@@ -3,22 +3,50 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:google_maps/google_maps.dart';
 import 'dart:ui' as ui;
+import 'package:location/location.dart' as loc;
 
-class GoogleMapDummy extends StatelessWidget {
+class GoogleMapDummy extends StatefulWidget {
+  @override
+  State<GoogleMapDummy> createState() => _GoogleMapDummyState();
+}
+
+class _GoogleMapDummyState extends State<GoogleMapDummy> {
   @override
   Widget build(BuildContext context) {
     String htmlId = "7";
+    
+
+    Future<LatLng> getCurrentData() async {
+      loc.LocationData location = await loc.Location().getLocation();
+      print('==================1111111 ${LatLng(location.latitude, location.longitude)}');
+      return LatLng(location.latitude, location.longitude);
+    }
 
     // ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
-      final myLatlng = LatLng(1.3521, 103.8198);
-
+      var myLatlng = LatLng(19.432608, -99.133209);
+      getCurrentData().then((value){
+        setState(() {
+          
+        myLatlng = value;
+        });
+        print('=====================================$myLatlng');
+      }
+        );
       // another location
-      final myLatlng2 = LatLng(1.4521, 103.9198);
+      var myLatlng2 = LatLng(19.432608, -99.133209);
+      getCurrentData().then((value){
+       setState(() {
+          
+        myLatlng2 = value;
+        });
+        print('=====================================$myLatlng2');
+      }
+        );
 
       final mapOptions = MapOptions()
         ..zoom = 10
-        ..center = LatLng(1.3521, 103.8198);
+        ..center = LatLng(19.432608, -99.133209);
 
       final elem = DivElement()
         ..id = htmlId

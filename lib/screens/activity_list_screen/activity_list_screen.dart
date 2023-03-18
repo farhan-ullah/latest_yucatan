@@ -190,7 +190,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                                 Dimensions.getScaledSize(24.0),
                                           ),
                                           child: Text(
-                                            'Outdoor',
+                                            AppLocalizations.of(context)!.outdoor,
                                             style: TextStyle(
                                               fontSize:
                                                   Dimensions.getScaledSize(
@@ -210,7 +210,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return _dataActivityListViewItem(
-                                                  'Outdoor');
+                                                  AppLocalizations.of(context)!.outdoor,'lib/assets/images/homerow1.jpg');
                                             },
                                             itemCount: 5,
                                             scrollDirection: Axis.horizontal,
@@ -225,7 +225,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                                 Dimensions.getScaledSize(24.0),
                                           ),
                                           child: Text(
-                                            'Indoor',
+                                            AppLocalizations.of(context)!.indoor,
                                             style: TextStyle(
                                               fontSize:
                                                   Dimensions.getScaledSize(
@@ -245,7 +245,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return _dataActivityListViewItem(
-                                                  'Indoor');
+                                                  AppLocalizations.of(context)!.indoor,'lib/assets/images/homerow2.jpg');
                                             },
                                             itemCount: 5,
                                             scrollDirection: Axis.horizontal,
@@ -260,7 +260,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                                 Dimensions.getScaledSize(24.0),
                                           ),
                                           child: Text(
-                                            'Action',
+                                            AppLocalizations.of(context)!.action,
                                             style: TextStyle(
                                               fontSize:
                                                   Dimensions.getScaledSize(
@@ -280,7 +280,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return _dataActivityListViewItem(
-                                                  'Action');
+                                                  AppLocalizations.of(context)!.action,'lib/assets/images/homerow3.jpg');
                                             },
                                             itemCount: 5,
                                             scrollDirection: Axis.horizontal,
@@ -295,7 +295,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                                 Dimensions.getScaledSize(24.0),
                                           ),
                                           child: Text(
-                                            'Familie',
+                                            AppLocalizations.of(context)!.familie,
                                             style: TextStyle(
                                               fontSize:
                                                   Dimensions.getScaledSize(
@@ -315,7 +315,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return _dataActivityListViewItem(
-                                                  'Familie');
+                                                  AppLocalizations.of(context)!.familie,'lib/assets/images/homerow4.jpg');
                                             },
                                             itemCount: 5,
                                             scrollDirection: Axis.horizontal,
@@ -356,12 +356,12 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                             ),
                           ),
                           // serachUI on Top  Positioned
-                          Positioned(
-                            top: 2,
-                            left: 0,
-                            right: 30,
-                            child: searchUi(),
-                          ),
+                          // Positioned(
+                          //   top: 0,
+                          //   left: 0,
+                          //   right: 30,
+                          //   child: searchUi(),
+                          // ),
                           Positioned(
                             bottom: 0,
                             child: GestureDetector(
@@ -457,7 +457,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
         });
   }
 
-  Container _dataActivityListViewItem(String textTitle) {
+  Container _dataActivityListViewItem(String textTitle, String imagePath) {
     return Container(
         child: Padding(
       padding: EdgeInsets.symmetric(horizontal: Dimensions.getScaledSize(12.0)),
@@ -500,7 +500,7 @@ class _ActivityListScreenState extends DateState<ActivityListScreen>
                                 width: Dimensions.getScaledSize(280),
                                 height: Dimensions.getHeight(percentage: 20.0),
                                 child: Image.asset(
-                                  'lib/assets/images/homescreen3.jpg',
+                                  imagePath,
                                   fit: BoxFit.fill,
                                 )),
                             Positioned(

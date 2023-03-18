@@ -38,7 +38,7 @@ class FavoritesItemShimmer extends StatelessWidget {
                       ),
                 ),
               ),
-              Expanded(
+              Expanded(    
                 flex: 7,
                 child: Container(
                   padding: EdgeInsets.only(

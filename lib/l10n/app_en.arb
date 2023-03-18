@@ -143,6 +143,11 @@
   "@commonWords_DSpolicy1": {
     "description": "i have "
   },
+  "outdoor":"Outdoor",
+  "indoor":"Indoor",
+  "familie":"Familie",
+  "action":"Action",
+  "contact_information":"Contact information",
   "commonWords_DSpolicy2": "Privacy Policy",
   "@commonWords_DSpolicy2": {
     "description": "privacy policy"

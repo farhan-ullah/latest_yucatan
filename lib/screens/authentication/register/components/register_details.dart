@@ -25,27 +25,27 @@ class _RegisterDetailsState extends State<RegisterDetails> {
           registerValidationBloc: widget.registerValidationBloc,
           hintText: AppLocalizations.of(context)!.commonWords_username_required,
           validationFunc: (data) {
-            if (data == null || data.length == 0 || data.length >= 5) {
-              _model.isValid = true;
-              widget.onChange!.call(_model);
-              return null;
-            }
+            // if (data == null || data.length == 0 || data.length >= 5) {
+            //   _model.isValid = true;
+            //   widget.onChange!.call(_model);
+            //   return null;
+            // }
 
-            _model.isValid = false;
-            widget.onChange!.call(_model);
-            return AppLocalizations.of(context)!.commonWords_usernameInvalid;
+            // _model.isValid = false;
+            // widget.onChange!.call(_model);
+            // return AppLocalizations.of(context)!.commonWords_usernameInvalid;
           },
           onTextChanged: (String text) {
-            _model.username = text;
-            widget.onChange!.call(_model);
+            // _model.username = text;
+            // widget.onChange!.call(_model);
 
-            if (_model.username == null ||
-                _model.username.length == 0 ||
-                _model.username.length >= 5) {
-              _model.isValid = true;
-            } else {
-              _model.isValid = false;
-            }
+            // if (_model.username == null ||
+            //     _model.username.length == 0 ||
+            //     _model.username.length >= 5) {
+            //   _model.isValid = true;
+            // } else {
+            //   _model.isValid = false;
+            // }
           },
         )
       ],

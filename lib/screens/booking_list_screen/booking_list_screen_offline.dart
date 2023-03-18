@@ -94,17 +94,17 @@ class _BookingListScreenOfflineState extends State<BookingListScreenOffline>
   @override
   void initState() {
     //Log firebase event
-    if (kReleaseMode) {
-      analytics.logEvent(
-        name: 'view_booking_list',
-        parameters: <String, dynamic>{
-          'time': DateTime.now().toIso8601String(),
-        },
-      );
-    }
+    // if (kReleaseMode) {
+    //   analytics.logEvent(
+    //     name: 'view_booking_list',
+    //     parameters: <String, dynamic>{
+    //       'time': DateTime.now().toIso8601String(),
+    //     },
+    //   );
+    // }
 
-    offlineBookings = true;
-    onlineStatus = StatusService.isConnected();
+    // offlineBookings = true;
+    // onlineStatus = StatusService.isConnected();
 
     if (widget.notificationAction != null && widget.notificationData != null) {
       handleNavigation(widget.notificationAction!, widget.notificationData);
@@ -147,16 +147,19 @@ class _BookingListScreenOfflineState extends State<BookingListScreenOffline>
   @override
   Widget build(BuildContext context) {
     double height = Scaffold.of(context).appBarMaxHeight!;
-    return FutureBuilder<bool>(
-      builder: (context, snapshotConnected) {
-        if (snapshotConnected.hasData) {
-          // if there is no connectionn, get from SharedPrefs
-          if (snapshotConnected.data!) {
-            user = UserProvider.getUser();
-          } else {
-            user = UserProvider.getOfflineUser();
-          }
+    // return 
+    // FutureBuilder<bool>(
+    //   builder: (context, snapshotConnected) {
+    //     if (snapshotConnected.hasData) {
+    //       // if there is no connectionn, get from SharedPrefs
+    //       if (snapshotConnected.data!) {
+    //         user = UserProvider.getUser();
+    //       } else {
+    //         user = UserProvider.getOfflineUser();
+    //       }
           return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: Dimensions.getScaledSize(60),
@@ -196,204 +199,26 @@ class _BookingListScreenOfflineState extends State<BookingListScreenOffline>
                   ],
                 ),
               ),
-              Expanded(
-                child: FutureBuilder<UserLoginModel>(
-                  future: user,
-                  builder: (context, userSnapshot) {
-                    if (userSnapshot.hasData) {
-                      if (offlineBookings || !snapshotConnected.data!) {
-                        offlineBookings = true;
-                        bookings = HiveService.getBookingResponse();
-                      }
-
-                      if (snapshotConnected.data! && offlineBookings) {
-                        BookingService.getAllForUserDetailed(
-                                userSnapshot.data!.sId!)
-                            .then((value) {
-                          if (value != null &&
-                              value.status == 200 &&
-                              value.data != null) {
-                            if (mounted) {
-                              setState(() {
-                                offlineBookings = false;
-                                bookings = Future.value(value);
-                              });
-                            }
-                          }
-                        });
-                      }
-                      return FutureBuilder<BookingDetailedMultiResponseEntity>(
-                        future: bookings,
-                        builder: (context, bookingsSnapshot) {
-                          if (snapshotConnected.data! &&
-                              bookingsSnapshot.hasData &&
-                              bookingsSnapshot.data!.data != null) {
-                            HiveService.storeBooking(
-                                bookingsSnapshot.data!.data!);
-                          }
-                          if (bookingsSnapshot.hasData &&
-                              bookingsSnapshot.data!.data == null) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  top: Dimensions.getScaledSize(10),
-                                  left: Dimensions.getScaledSize(20),
-                                  bottom: Dimensions.getScaledSize(20),
-                                  right: Dimensions.getScaledSize(20)),
-                              child: Text(AppLocalizations.of(context)!
-                                  .commonWords_error),
-                            );
-                          }
-
-                          if (bookingsSnapshot.hasData &&
-                              bookingsSnapshot.data!.data != null) {
-                            bookingsSnapshot.data!.data!.sort((a, b) =>
-                                a.bookingDate!.compareTo(b.bookingDate!));
-                            _separateBookings(bookingsSnapshot.data!.data!);
-
-                            return Container(
-                              // height: MediaQuery.of(context).size.height -
-                              //     60 -
-                              //     getProportionateScreenHeight(80) -
-                              //     AppBar().preferredSize.height -
-                              //     MediaQuery.of(context).padding.top -
-                              //     MediaQuery.of(context).padding.bottom,
-                              width: MediaQuery.of(context).size.width,
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: [
-                                  BookingListOfflineView(
-                                    bookingListCardType:
-                                        BookingListCardType.USABLE,
-                                    noBookingsTitle:
-                                        AppLocalizations.of(context)!
-                                            .bookingListScreen_noActiveBookings,
-                                    bookings: usable,
-                                    refresh: refresh,
-                                    online: !offlineBookings,
-                                    notificationAction:
-                                        widget.notificationAction,
-                                    notificationData: widget.notificationData,
-                                  ),
-                                  BookingListOfflineView(
-                                    bookingListCardType:
-                                        BookingListCardType.USED,
-                                    noBookingsTitle:
-                                        AppLocalizations.of(context)!
-                                            .bookingListScreen_noUsedBookings,
-                                    bookings: used,
-                                    refresh: refresh,
-                                    online: !offlineBookings,
-                                    notificationAction:
-                                        widget.notificationAction,
-                                    notificationData: widget.notificationData,
-                                  ),
-                                  BookingListOfflineView(
-                                    //  key: Key(requested.length.toString()),
-                                    bookingListCardType:
-                                        BookingListCardType.REQUESTED,
-                                    noBookingsTitle: AppLocalizations.of(
-                                            context)!
-                                        .bookingListScreen_noRequestedBookings,
-                                    bookings: requested,
-                                    refresh: refresh,
-                                    online: !offlineBookings,
-                                    notificationAction:
-                                        widget.notificationAction,
-                                    notificationData: widget.notificationData,
-                                    removeDeniedRequest: removeDeniedBooking,
-                                  )
-                                ],
+               Padding(
+                              padding: EdgeInsets.all(
+                               Dimensions.getScaledSize(12.0),
                               ),
-                            );
-                          } else if (bookingsSnapshot.hasError) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  top: Dimensions.getScaledSize(10),
-                                  bottom: Dimensions.getScaledSize(20),
-                                  left: Dimensions.getScaledSize(20),
-                                  right: Dimensions.getScaledSize(20)),
-                              child: Text('${bookingsSnapshot.error}'),
-                            );
-                          }
-
-                          return ListView.builder(
-                            padding: EdgeInsets.only(
-                                top: Dimensions.getScaledSize(20.0),
-                                bottom: Dimensions.getScaledSize(16.0),
-                                left: Dimensions.getScaledSize(16.0),
-                                right: Dimensions.getScaledSize(16.0)),
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return BookingListViewItemSkeleton();
-                            },
-                          );
-                        },
-                      );
-                    } else if (userSnapshot.hasError) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            top: Dimensions.getScaledSize(10),
-                            bottom: Dimensions.getScaledSize(20),
-                            left: Dimensions.getScaledSize(20),
-                            right: Dimensions.getScaledSize(20)),
-                        child: Text('${userSnapshot.error}'),
-                      );
-                    } else if (userSnapshot.data == null) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              bottom: Dimensions.getScaledSize(12.0),
-                            ),
-                            child: _favouriteData(context),
-                          );
-                        },
-                        itemCount: 5,
-                        scrollDirection: Axis.vertical,
-                        padding: EdgeInsets.only(
-                          left: Dimensions.getScaledSize(12.0),
-                          top: Dimensions.getScaledSize(12.0),
-                        ),
-                      );
-                      // CustomErrorEmptyScreen(
-                      //   title:
-                      //       AppLocalizations.of(context)!.commonWords_mistake,
-                      //   description: AppLocalizations.of(context)!
-                      //       .bookingListScreen_loginToSee,
-                      //   rive: RiveAnimation(
-                      //     riveFileName: 'tickets_animiert_loop.riv',
-                      //     riveAnimationName: 'Animation 1',
-                      //     placeholderImage:
-                      //         'lib/assets/images/booking_list_empty.png',
-                      //     startAnimationAfterMilliseconds: 0,
-                      //   ),
-                      //   customButtonText:
-                      //       AppLocalizations.of(context)!.loginSceen_login,
-                      //   callback: _navigateToLogin,
-                      // );
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
+                              child: _favouriteData(context,'lib/assets/images/booking1.jpg'),
+               ),Padding(
+                              padding: EdgeInsets.all(
+                               Dimensions.getScaledSize(12.0),
+                              ),
+                              child: _favouriteData(context,'lib/assets/images/booking2.jpg'),
+               ),Padding(
+                              padding: EdgeInsets.all(
+                               Dimensions.getScaledSize(12.0),
+                              ),
+                              child: _favouriteData(context,'lib/assets/images/booking3.jpg'),
+               ),
+            
             ],
           );
-        } else if (snapshotConnected.hasError) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: Dimensions.getScaledSize(10),
-                bottom: Dimensions.getScaledSize(20),
-                left: Dimensions.getScaledSize(20),
-                right: Dimensions.getScaledSize(20)),
-            child: Text('${snapshotConnected.error}'),
-          );
-        }
-
-        return Center(child: CircularProgressIndicator());
-      },
-      future: onlineStatus,
-    );
+    
   }
 
   _separateBookings(List<BookingDetailedModel> bookings) {
@@ -439,424 +264,215 @@ class _BookingListScreenOfflineState extends State<BookingListScreenOffline>
     );
   }
 
-  Container _favouriteData(BuildContext context) {
+   Container _favouriteData(BuildContext context, String imagePath) {
     return Container(
-        child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.getScaledSize(12.0)),
-      child: Row(
-        children: [
-          Container(
-            width: Dimensions.getWidth(percentage: 90),
-            height: Dimensions.getHeight(percentage: 15.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  Dimensions.getScaledSize(16.0),
-                ),
-              ),
-              color: CustomTheme.backgroundColor,
-              boxShadow: CustomTheme.shadow,
+      width: Dimensions.getWidth(percentage: 100),
+      height: Dimensions.getHeight(percentage: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            Dimensions.getScaledSize(16.0),
+          ),
+        ),
+        color: CustomTheme.backgroundColor,
+        boxShadow: CustomTheme.shadow,
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => HotelDetailsDummy(),
             ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => HotelDetailsDummy(),
+          );
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(
+              Radius.circular(Dimensions.getScaledSize(16.0))),
+          child: Row(
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(
+                            Dimensions.getScaledSize(16.0))),
                   ),
-                );
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(Dimensions.getScaledSize(16.0))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Stack(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          Dimensions.getScaledSize(16.0))),
-                                ),
-                                width: Dimensions.getScaledSize(150),
-                                height: Dimensions.getHeight(percentage: 15.0),
-                                child: Image.asset(
-                                  'lib/assets/images/homescreen3.jpg',
-                                  fit: BoxFit.fill,
-                                )),
-                            SizedBox(width: Dimensions.getScaledSize(5.0)),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Stack(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Indoor",
-                                          overflow: TextOverflow.clip,
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize:
-                                                  Dimensions.getScaledSize(
-                                                      30.0),
-                                              color: Colors.black),
-                                        ),
-                                        SizedBox(
-                                            width:
-                                                Dimensions.getScaledSize(120)),
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: GestureDetector(
-                                            onTap: () {},
-                                            child: Container(
-                                              height: Dimensions.getScaledSize(
-                                                  32.0),
-                                              width: Dimensions.getScaledSize(
-                                                  32.0),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius
-                                                    .circular(Dimensions
-                                                        .getScaledSize(48.0)),
-                                                color: CustomTheme.accentColor1,
-                                              ),
-                                              child: Center(
-                                                child: Icon(
-                                                  Icons.favorite_border,
-                                                  size:
-                                                      Dimensions.getScaledSize(
-                                                          24.0),
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                    height: Dimensions.getScaledSize(15.0)),
-                                Row(
-                                  textBaseline: TextBaseline.alphabetic,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.location_on_outlined,
-                                      size: Dimensions.getScaledSize(18.0),
-                                      color: CustomTheme.primaryColorDark,
-                                    ),
-                                    SizedBox(
-                                      width: Dimensions.getScaledSize(5.0),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: Dimensions.getScaledSize(3),
-                                      ),
-                                      child: Text(
-                                        'Germany',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize:
-                                              Dimensions.getScaledSize(18.0),
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                    height: Dimensions.getScaledSize(15.0)),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SmoothStarRating(
-                                      isReadOnly: true,
-                                      allowHalfRating: true,
-                                      starCount: 1,
-                                      rating: 1,
-                                      size: Dimensions.getScaledSize(18.0),
-                                      color: CustomTheme.accentColor3,
-                                      borderColor: CustomTheme.primaryColor,
-                                    ),
-                                    SizedBox(
-                                      width: Dimensions.getScaledSize(5.0),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "4",
-                                          style: TextStyle(
-                                            fontSize:
-                                                Dimensions.getScaledSize(13.0),
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          "20",
-                                          style: TextStyle(
-                                            fontSize:
-                                                Dimensions.getScaledSize(13.0),
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                        width: Dimensions.getScaledSize(120)),
-                                    Row(
-                                      textBaseline: TextBaseline.alphabetic,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.baseline,
-                                      children: [
-                                        Text(
-                                          "${AppLocalizations.of(context)!.activityScreen_from} ",
-                                          style: TextStyle(
-                                              fontSize:
-                                                  Dimensions.getScaledSize(
-                                                      13.0),
-                                              color: Colors.grey),
-                                        ),
-                                        Text(
-                                          '8.0',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize:
-                                                  Dimensions.getScaledSize(
-                                                      21.0),
-                                              color:
-                                                  CustomTheme.primaryColorDark),
-                                        ),
-                                        Text(
-                                          "€",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize:
-                                                  Dimensions.getScaledSize(
-                                                      18.0),
-                                              color:
-                                                  CustomTheme.primaryColorDark),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                  width: Dimensions.getScaledSize(100),
+                  height: Dimensions.getHeight(percentage: 12.0),
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.fill,
+                  )),
+              SizedBox(width: Dimensions.getScaledSize(5.0)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Indoor",
+                        overflow: TextOverflow.clip,
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize:
+                                Dimensions.getScaledSize(
+                                    20.0),
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        width: Dimensions.getScaledSize(110),
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: Dimensions.getScaledSize(
+                              28.0),
+                          width: Dimensions.getScaledSize(
+                              28.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius
+                                .circular(Dimensions
+                                    .getScaledSize(48.0)),
+                            color: CustomTheme.accentColor1,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.favorite_border,
+                              size:
+                                  Dimensions.getScaledSize(
+                                      21.0),
+                              color: Colors.white,
                             ),
-                            // Positioned(
-                            //   top: Dimensions.getScaledSize(8.0),
-                            //   right: Dimensions.getScaledSize(8.0),
-                            //   child: GestureDetector(
-                            //     onTap: () {},
-                            //     child: Container(
-                            //       height: Dimensions.getScaledSize(32.0),
-                            //       width: Dimensions.getScaledSize(32.0),
-                            //       decoration: BoxDecoration(
-                            //         borderRadius: BorderRadius.circular(
-                            //             Dimensions.getScaledSize(48.0)),
-                            //         color: Colors.white,
-                            //       ),
-                            //       child: Center(
-                            //         child: Icon(
-                            //           Icons.favorite_border,
-                            //           size: Dimensions.getScaledSize(24.0),
-                            //           color: CustomTheme.accentColor1,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                      height: Dimensions.getScaledSize(5.0)),
+                  Row(
+                    textBaseline: TextBaseline.alphabetic,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: Dimensions.getScaledSize(18.0),
+                        color: CustomTheme.primaryColorDark,
+                      ),
+                      SizedBox(
+                        width: Dimensions.getScaledSize(5.0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: Dimensions.getScaledSize(3),
+                        ),
+                        child: Text(
+                          'Germany',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize:
+                                Dimensions.getScaledSize(18.0),
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                      height: Dimensions.getScaledSize(5.0)),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Row(
+                          children: [
+                            SmoothStarRating(
+                              isReadOnly: true,
+                              allowHalfRating: true,
+                              starCount: 1,
+                              rating: 1,
+                              size: Dimensions.getScaledSize(18.0),
+                              color: CustomTheme.accentColor3,
+                              borderColor: CustomTheme.primaryColor,
+                            ),SizedBox(
+                        width: Dimensions.getScaledSize(5.0),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "4",
+                            style: TextStyle(
+                              fontSize:
+                                  Dimensions.getScaledSize(13.0),
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "20",
+                            style: TextStyle(
+                              fontSize:
+                                  Dimensions.getScaledSize(13.0),
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
                           ],
                         ),
-                      ],
-                    ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.only(
-                    //       bottomLeft: Radius.circular(
-                    //         Dimensions.getScaledSize(16.0),
-                    //       ),
-                    //       bottomRight: Radius.circular(
-                    //         Dimensions.getScaledSize(16.0),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: <Widget>[
-                    //       Expanded(
-                    //         child: Container(
-                    //           child: Padding(
-                    //             padding: EdgeInsets.all(
-                    //               Dimensions.getScaledSize(8.0),
-                    //             ),
-                    //             child: Column(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: <Widget>[
-                    //                 Stack(
-                    //                   children: [
-                    //                     Column(
-                    //                       children: [
-                    //                         SizedBox(
-                    //                           height:
-                    //                               Dimensions.getScaledSize(5.0),
-                    //                         ),
-                    //                         Row(
-                    //                           textBaseline:
-                    //                               TextBaseline.alphabetic,
-                    //                           mainAxisAlignment:
-                    //                               MainAxisAlignment.start,
-                    //                           children: <Widget>[
-                    //                             Icon(
-                    //                               Icons.location_on_outlined,
-                    //                               size:
-                    //                                   Dimensions.getScaledSize(
-                    //                                       16.0),
-                    //                               color: CustomTheme
-                    //                                   .primaryColorDark,
-                    //                             ),
-                    //                             SizedBox(
-                    //                               width:
-                    //                                   Dimensions.getScaledSize(
-                    //                                       5.0),
-                    //                             ),
-                    //                             Expanded(
-                    //                               child: Padding(
-                    //                                 padding: EdgeInsets.only(
-                    //                                   top: Dimensions
-                    //                                       .getScaledSize(3),
-                    //                                 ),
-                    //                                 child: Text(
-                    //                                   'Germany',
-                    //                                   overflow:
-                    //                                       TextOverflow.ellipsis,
-                    //                                   style: TextStyle(
-                    //                                     fontSize: Dimensions
-                    //                                         .getScaledSize(
-                    //                                             13.0),
-                    //                                     color: Colors.grey,
-                    //                                   ),
-                    //                                 ),
-                    //                               ),
-                    //                             ),
-                    //                           ],
-                    //                         ),
-                    //                         Padding(
-                    //                           padding: EdgeInsets.only(
-                    //                             top: Dimensions.getScaledSize(
-                    //                                 4.0),
-                    //                           ),
-                    //                           child: Row(
-                    //                             crossAxisAlignment:
-                    //                                 CrossAxisAlignment.end,
-                    //                             children: <Widget>[
-                    //                               SmoothStarRating(
-                    //                                 isReadOnly: true,
-                    //                                 allowHalfRating: true,
-                    //                                 starCount: 1,
-                    //                                 rating: 1,
-                    //                                 size: Dimensions
-                    //                                     .getScaledSize(18.0),
-                    //                                 color: CustomTheme
-                    //                                     .accentColor3,
-                    //                                 borderColor: CustomTheme
-                    //                                     .primaryColor,
-                    //                               ),
-                    //                               Row(
-                    //                                 children: [
-                    //                                   Text(
-                    //                                     "4",
-                    //                                     style: TextStyle(
-                    //                                       fontSize: Dimensions
-                    //                                           .getScaledSize(
-                    //                                               13.0),
-                    //                                       color: Colors.grey,
-                    //                                     ),
-                    //                                   ),
-                    //                                   Text(
-                    //                                     "20",
-                    //                                     style: TextStyle(
-                    //                                       fontSize: Dimensions
-                    //                                           .getScaledSize(
-                    //                                               13.0),
-                    //                                       color: Colors.grey,
-                    //                                     ),
-                    //                                   ),
-                    //                                 ],
-                    //                               )
-                    //                             ],
-                    //                           ),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                     Positioned(
-                    //                       bottom: -5,
-                    //                       right: 0,
-                    //                       child: Row(
-                    //                         textBaseline:
-                    //                             TextBaseline.alphabetic,
-                    //                         crossAxisAlignment:
-                    //                             CrossAxisAlignment.baseline,
-                    //                         children: [
-                    //                           Text(
-                    //                             "Calling",
-                    //                             style: TextStyle(
-                    //                                 fontSize: Dimensions
-                    //                                     .getScaledSize(13.0),
-                    //                                 color: Colors.grey),
-                    //                           ),
-                    //                           Text(
-                    //                             '8.0',
-                    //                             textAlign: TextAlign.left,
-                    //                             style: TextStyle(
-                    //                                 fontWeight: FontWeight.bold,
-                    //                                 fontSize: Dimensions
-                    //                                     .getScaledSize(21.0),
-                    //                                 color: CustomTheme
-                    //                                     .primaryColorDark),
-                    //                           ),
-                    //                           Text(
-                    //                             "€",
-                    //                             textAlign: TextAlign.left,
-                    //                             style: TextStyle(
-                    //                                 fontWeight: FontWeight.bold,
-                    //                                 fontSize: Dimensions
-                    //                                     .getScaledSize(18.0),
-                    //                                 color: CustomTheme
-                    //                                     .primaryColorDark),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
-                ),
+                      ),
+                      
+                      SizedBox(
+                          width: Dimensions.getScaledSize(80)),
+                      Container(
+                        child: Row(
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment:
+                              CrossAxisAlignment.baseline,
+                          children: [
+                            Text(
+                              "${AppLocalizations.of(context)!.activityScreen_from} ",
+                              style: TextStyle(
+                                  fontSize:
+                                      Dimensions.getScaledSize(
+                                          13.0),
+                                  color: Colors.grey),
+                            ),
+                            Text(
+                              '8.0',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      Dimensions.getScaledSize(
+                                          21.0),
+                                  color:
+                                      CustomTheme.primaryColorDark),
+                            ),
+                            Text(
+                              "€",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      Dimensions.getScaledSize(
+                                          18.0),
+                                  color:
+                                      CustomTheme.primaryColorDark),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
+              
+            ],
           ),
-        ],
+        ),
       ),
-    ));
+    );
   }
 }

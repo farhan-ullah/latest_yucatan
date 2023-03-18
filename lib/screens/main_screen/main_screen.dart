@@ -156,10 +156,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              height: 50,
-                              width: 80,
+                              height: 35,
                               child: FutureBuilder(
                                 future:
                                     checkCondition(), // a Future<String> or null
@@ -223,8 +223,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              height: 50,
-                              width: 80,
+                              height: 35,
                               child: FutureBuilder(
                                 future:
                                     checkCondition(), // a Future<String> or null

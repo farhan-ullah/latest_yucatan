@@ -78,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     width: double.infinity,
+                    color: Colors.grey.withOpacity(0.2),
                     child: FutureBuilder(
                       future: checkCondition(), // a Future<String> or null
                       builder: (BuildContext context,
@@ -117,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   //   ),
                   // ),
                   Positioned(
-                      top: MediaQuery.of(context).padding.top + 5,
-                      // left: Dimensions.getScaledSize(38),
+                      top: Dimensions.getHeight(percentage: 2),
+                      left: Dimensions.getScaledSize(8),
                       child: GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
                         child: SvgPicture.asset(
@@ -146,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   //     ))
                 ],
               ),
-              Expanded(flex: 3, child: Container()),
+              Expanded(flex: 2, child: Container()),
               Container(
                 child: SingleChildScrollView(
                   child: _loginContainer(),
@@ -289,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: Dimensions.getScaledSize(60),
                 ),
                 CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
+                    valueColor: AlwaysStoppedAnimation<Color>(
                         CustomTheme.theme.primaryColor)),
                 Container(
                   margin: EdgeInsets.only(top: Dimensions.getScaledSize(10)),
@@ -361,7 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.grey),
                               ),
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: this.isLoginBtnPressed
+                                borderSide: isLoginBtnPressed
                                     ? BorderSide(
                                         color: passwordController.text.isEmpty
                                             ? CustomTheme.accentColor1

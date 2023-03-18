@@ -101,8 +101,8 @@ class OnboardingPage extends StatelessWidget {
             //   padding: EdgeInsets.symmetric(vertical: displayHeight * 0.03),
             // ),
             Container(
-              height: Dimensions.getHeight(percentage: 25.0),
-              width: Dimensions.getHeight(percentage: 25.0),
+              height: Dimensions.getHeight(percentage: 20.0),
+              width: Dimensions.getHeight(percentage: 20.0),
               child: FutureBuilder(
                 future: checkCondition(), // a Future<String> or null
                 builder:

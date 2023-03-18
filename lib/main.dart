@@ -3,8 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:yucatan/routes/custom_routes.dart';
 import 'package:yucatan/screens/splash_screen/splash_screen.dart';
 import 'package:yucatan/theme/custom_theme.dart';
@@ -14,8 +14,10 @@ import 'package:yucatan/utils/theme_model.dart';
 import 'l10n/l10n.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
   await Hive.initFlutter();
   Hive.openBox('mybox');
 

@@ -4,6 +4,11 @@
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
+  "outdoor":"Draussen",
+  "indoor":"Innen",
+  "familie":"Familie",
+  "contact_information":"Kontaktinformationen",
+  "action":"Aktion",
   "commonWords_app_name": "Appventure",
   "@commonWords_app_name": {
     "description": "App name"

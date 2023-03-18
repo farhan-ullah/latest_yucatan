@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:yucatan/components/colored_divider.dart';
 import 'package:yucatan/components/custom_app_bar.dart';
+import 'package:yucatan/screens/authentication/login/loginbloc/login_bloc.dart';
 import 'package:yucatan/screens/authentication/register/components/register_bloc.dart';
 import 'package:yucatan/screens/authentication/register/components/register_details.dart';
 import 'package:yucatan/screens/authentication/register/components/register_email.dart';
@@ -9,11 +12,16 @@ import 'package:yucatan/screens/authentication/register/models/details_model.dar
 import 'package:yucatan/screens/authentication/register/models/password_model.dart';
 import 'package:yucatan/screens/authentication/register/models/policy_model.dart';
 import 'package:yucatan/services/response/user_login_response.dart';
+import 'package:yucatan/services/response/vendor_activty_overview_response.dart';
 import 'package:yucatan/services/user_provider.dart';
 import 'package:yucatan/services/user_service.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:yucatan/size_config.dart';
 import 'package:yucatan/theme/custom_theme.dart';
+import 'package:yucatan/utils/check_condition.dart';
 import 'package:yucatan/utils/country_utils.dart';
+import 'package:yucatan/utils/rive_animation.dart';
 import 'package:yucatan/utils/widget_dimensions.dart';
 import 'package:provider/provider.dart';
 import 'package:yucatan/utils/theme_model.dart';
@@ -40,6 +48,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   RegisterEmailModel? _emailModel;
   RegisterPasswordModel? _passwordModel;
   RegisterPolicyModel? _policyModel;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool isLoginBtnPressed = false;
+  LoginBloc loginBloc = LoginBloc();
 
   CountryPhoneModel? _countryPhoneModel;
   final RegisterBloc bloc = RegisterBloc();
@@ -49,11 +61,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     isSubmitButtonPressed = false;
-    registerValidationBloc.registerSubmitButtonPressed(isSubmitButtonPressed!);
-    registerValidationBloc.eventSink
-        .add(RegisterValidationAction.IsButtonPressed);
-    _getRegisterResponse();
-    _getLoadingState();
+    // registerValidationBloc.registerSubmitButtonPressed(isSubmitButtonPressed!);
+    // registerValidationBloc.eventSink
+    //     .add(RegisterValidationAction.IsButtonPressed);
+    // _getRegisterResponse();
+    // _getLoadingState();
     super.initState();
   }
 
@@ -100,22 +112,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(
-        title: AppLocalizations.of(context)!.registerScreen_title,
-        backgroundColor:
-            Provider.of<ThemeModel>(context, listen: true).primaryMainColor,
-        appBar: AppBar(
-          elevation: 0,
-        ),
-        centerTitle: true,
-      ),
+      // appBar: CustomAppBar(
+      //   title: AppLocalizations.of(context)!.registerScreen_title,
+      //   backgroundColor:
+      //       Provider.of<ThemeModel>(context, listen: true).primaryMainColor,
+      //   appBar: AppBar(
+      //     elevation: 0,
+      //   ),
+      //   centerTitle: true,
+      // ),
       body: Container(
           color: Colors.white,
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           //decoration: BoxDecoration(color: Theme.of(context).primaryColorLight),
           child: Column(
-            children: [
+            children: [Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    color: Colors.grey.withOpacity(0.2),
+                    child: FutureBuilder(
+                      future: checkCondition(), // a Future<String> or null
+                      builder: (BuildContext context,
+                          AsyncSnapshot<Uint8List> snapshot) {
+                        return snapshot.hasData
+                            ? Image.memory(snapshot.data!)
+                            : RiveAnimation(
+                                riveFileName: 'app-start.riv',
+                                riveAnimationName: 'Animation 1',
+                                placeholderImage:
+                                    'lib/assets/images/appventure_icon_white.png',
+                                startAnimationAfterMilliseconds: 2,
+                              );
+
+                        // switch (snapshot.connectionState) {
+                        //   case ConnectionState.none:
+                        //     return Text("See the printed Data${snapshot.data!}");
+                        //       // Image(
+                        //     // image: FileImage(File(snapshot.data!)),
+                        //   // );
+                        //   case ConnectionState.waiting: return const Text('Awaiting result...');
+                        //   default:
+                        //     if (snapshot.hasError) {
+                        //       return Text('Error: ${snapshot.error}');
+                        //     } else {
+                        //       return Text('Result: ${snapshot.data}');
+                        //     }
+                        // }
+                      },
+                    ),
+                  ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   child: Image.asset(
+                  //     'lib/assets/images/login_header_no_text.png',
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
+                  Positioned(
+                      top: Dimensions.getHeight(percentage: 2),
+                      left: Dimensions.getScaledSize(8),
+                      child: GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: SvgPicture.asset(
+                          'lib/assets/images/login_back_icon.svg',
+                          color: Colors.white,
+                          fit: BoxFit.fill,
+                          height: 20,
+                          width: 20,
+                        ),
+                      )),
+                  // Positioned(
+                  //     bottom: 30,
+                  //     child: SizedBox(
+                  //       width: MediaQuery.of(context).size.width,
+                  //       child: Center(
+                  //         child: Text(
+                  //           AppLocalizations.of(context)!
+                  //               .authenticationSceen_wellcome,
+                  //           style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: Dimensions.getScaledSize(20),
+                  //               fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ))
+                ],
+              ),
+              
               Container(
                 margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
                 child: Column(
@@ -136,75 +221,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               //AuthenticationHeader(title: 'Registrieren'),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Container(
-                  alignment: const Alignment(0.0, 0.0),
-                  margin: EdgeInsets.only(
-                      top: 0,
-                      left: Dimensions.getScaledSize(20.0),
-                      right: Dimensions.getScaledSize(20.0)),
-                  transform: Matrix4.translationValues(
-                      0, Dimensions.getScaledSize(20.0), 0),
-                  child: Column(
-                    children: [
-                      Visibility(
-                        visible: true,
-                        maintainState: true,
-                        child: Column(
-                          children: [
-                            SizedBox(height: Dimensions.getScaledSize(10.0)),
-                            usernameWidget(),
-                            //SizedBox(height: Dimensions.pixels_5),
-                            // _addressWidget,
-                            SizedBox(height: Dimensions.getScaledSize(10.0)),
-                            _emailWidget(),
-                            SizedBox(height: Dimensions.getScaledSize(25.0)),
-                            // _countryWidget(),
-                            SizedBox(height: Dimensions.getScaledSize(30.0)),
-                            _passwordWidget(),
-                            SizedBox(height: Dimensions.getScaledSize(20.0)),
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: RichText(
-                                    text: TextSpan(
-                                        text: AppLocalizations.of(context)!
-                                            .registerScreen_secure_password_text,
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: CustomTheme.fontFamily),
-                                        children: [
-                                      TextSpan(
-                                        text: AppLocalizations.of(context)!
-                                            .registerScreen_learn_more_text,
-                                        style: TextStyle(
-                                            color: Provider.of<ThemeModel>(
-                                                    context,
-                                                    listen: true)
-                                                .primaryMainColor,
-                                            fontFamily: CustomTheme.fontFamily),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            return modalBottomSheetMenu();
-                                          },
-                                      ),
-                                    ]))),
-                            SizedBox(height: Dimensions.getScaledSize(15.0)),
-                            _policyWidget(),
-                            SizedBox(height: Dimensions.getScaledSize(25.0)),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.getScaledSize(50)),
+                child: TextField(
+                decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!
+                      .authenticationSceen_email,
+                  hintStyle: TextStyle(
+                    color: Colors.grey[500],
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: this.isLoginBtnPressed
+                        ? BorderSide(
+                            color: emailController.text.isEmpty
+                                ? CustomTheme.accentColor1
+                                : CustomTheme.darkGrey.withOpacity(0.5))
+                        : BorderSide(
+                            color: CustomTheme.darkGrey.withOpacity(0.5)),
+                  ),
+                ),
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                // onChanged: loginBloc.onChangeEmail,
+                ),
+              ),
+              SizedBox(
+              height: Dimensions.pixels_10,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.getScaledSize(50)),
+                child: StreamBuilder<bool>(
+                  stream: loginBloc.togglePassword,
+                  builder: (context, snapshot) {
+                    var ishidden = snapshot.data ?? true;
+                    return TextFormField(
+                      obscureText: ishidden,
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!
+                            .authenticationSceen_password,
+                        hintStyle: TextStyle(color: Colors.grey[500]),
+                        suffix: InkWell(
+                          onTap: () => loginBloc.toggle(!ishidden),
+                          child: Icon(
+                              ishidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.grey),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: isLoginBtnPressed
+                              ? BorderSide(
+                                  color: passwordController.text.isEmpty
+                                      ? CustomTheme.accentColor1
+                                      : CustomTheme.darkGrey
+                                          .withOpacity(0.5))
+                              : BorderSide(
+                                  color: CustomTheme.darkGrey
+                                      .withOpacity(0.5)),
+                        ),
+                      ),
+                      // controller: passwordController,
+                      validator: (val) => val!.length < 6
+                          ? AppLocalizations.of(context)!
+                              .authenticationSceen_passwordInvalid
+                          : null,
+                    );
+                  }),
+              ),
+              SizedBox(height: Dimensions.getScaledSize(25.0)),
                             _showRegisterButton(
                                 context,
                                 AppLocalizations.of(context)!
                                     .registerScreen_start),
-                            SizedBox(height: Dimensions.pixels_100),
-                            // just needed to compensate for matrix transformation of the container
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )),
+                            SizedBox(height: Dimensions.pixels_144),
+              
               ColoredDivider(
                 height: Dimensions.getScaledSize(3.0),
               ),
@@ -243,10 +335,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fontWeight: FontWeight.w800)),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
+            
             ],
           )),
     );
@@ -515,7 +608,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _showRegisterButton(BuildContext context, String title) {
     var button = ButtonTheme(
-      minWidth: SizeConfig.screenWidth!,
+      minWidth: MediaQuery.of(context).size.width,
       child: MaterialButton(
         elevation: 0.0,
         color: CustomTheme.backgroundColor,

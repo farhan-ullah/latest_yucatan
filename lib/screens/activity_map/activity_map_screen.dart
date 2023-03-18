@@ -734,7 +734,7 @@ class _ActivityMapScreenState extends DateState<ActivityMapScreen> {
       }
     }
 
-    loc.Location _location = new loc.Location();
+    loc.Location _location =loc.Location();
     loc.LocationData? location;
 
     try {

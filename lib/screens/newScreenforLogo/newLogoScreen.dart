@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:path/path.dart' as Path;
 import 'package:image_picker_web/image_picker_web.dart';
@@ -46,6 +47,8 @@ class _LogoScreenState extends State<LogoScreen> {
   TextEditingController lastController = TextEditingController();
   TextEditingController organizationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  CollectionReference yutuan = FirebaseFirestore.instance.collection('yutuan');
+
 
   // Color mycolor = Colors.lightBlue;
 
@@ -335,7 +338,7 @@ class _LogoScreenState extends State<LogoScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildSizedBox(Dimensions.pixels_30),
-                              const Text('Contact information'),
+                              Text(AppLocalizations.of(context)!.contact_information),
                               buildSizedBox(Dimensions.pixels_30),
                               Row(
                                 children: [
@@ -448,6 +451,16 @@ class _LogoScreenState extends State<LogoScreen> {
                               duration: Duration(milliseconds: 300),
                             ));
                           } else {
+                            yutuan.doc(emailController.text.toString()).set({
+            //Data added in the form of a dictionary into the document.
+            'First Name': firstController.text, 
+            'Last Name': lastController.text, 
+            'Email': emailController.text,
+            'Organization': organizationController.text, 
+            'Phone': phoneController.text,
+            'Time': DateTime.now(),
+          }).then((value) => print('Added'),);
+          print('Done');
                             initialIndex++;
                           }
                         } else {

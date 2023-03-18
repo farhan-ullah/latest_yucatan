@@ -140,8 +140,8 @@ class _BurgerMenuScreenState extends State<BurgerMenuScreen> {
       text: AppLocalizations.of(context)!
           .burger_menu_imprint_data_protection_text,
       tapActionPre: () async => {
-        html.window.open("https://www.myappventure.de/impressum", "_self"),
-        // Navigator.of(context).pushNamed(ImpressumDatenschutz.route)
+        // html.window.open("https://www.myappventure.de/impressum", "_self"),
+        Navigator.of(context).pushNamed(ImpressumDatenschutz.route)
       },
       showSvg: true,
       svgPath: "lib/assets/images/policy_black_24dp.svg",
